@@ -406,7 +406,7 @@ def main(stdscr):
 
     # Read in up to the maximum size of data per line.
     # 0 is used because we only have 1 arduinp
-    data_in = ser[0].readline(MAXBUFFER).decode('ascii')
+    data_in = ser[0].readline(MAXBUFFER).decode()
     # ser[0].reset_input_buffer()
 
     # Strip newline characters

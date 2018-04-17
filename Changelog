@@ -1,0 +1,8 @@
+Changelog
+
+4/17/2018
+Added FC_ISTM.py and FC_ISTM.ino.
+
+Currently Known Bugs:
+- nff-sim-nonwin.py crashes if the response from the Arduino contains invalid characters 
+- Not yet implemented Adafruit sensor in nff-sim-nonwin.py
