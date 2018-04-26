@@ -5,12 +5,11 @@ from time import sleep
 TIMEOUT = 0.02
 BAUDRATE = 115200
 BUFSIZE = 200
-TEST_STRING = 'The quick brown fox jumps over the lazy dog 1234567890.,'
 
 def print_welcome_msg():
 	print('****************************************')
 	print('**     Project Rapid Ground Testing   **')
-	print('**               FC ISTM              **')
+	print('**            FC_Functional           **')
 	print('**               v0.1.0               **')
 	print('****************************************')
 
@@ -33,10 +32,6 @@ def main():
 	done = False
 	
 	while not done:
-		print('Sending Test String: ' + TEST_STRING)
-		ard_serial.write(TEST_STRING.encode())
-
-		sleep(0.5)
 
 		try: 
 			data_in = ard_serial.readline(BUFSIZE).decode()
@@ -49,7 +44,7 @@ def main():
 			if(data_in == TEST_STRING):
 				done = True
 
-			print('Received: ' + data_in)
+			print('Arduino Time: ' + data_in)
 		except:
 			pass
 

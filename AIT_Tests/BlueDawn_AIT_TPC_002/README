@@ -1,0 +1,15 @@
+BlueDawn_AIT_TPC_001
+
+README
+
+Prerequisites:
+	- Arduino IDE
+	- Arduino and cable connecting Arduino to computer
+	- Python 3
+
+To run the test:
+	- Find out on which port the Arduino is connected to the computer. You can find this by looking under Tools > Port in the Arduino IDE.
+	- Upload the FC_ISTM.ino file to the Arduino. Do not open the serial monitor on the Arduino IDE!
+	- Run FC_ISTM.py using python3. You can do this by running "python3 path/to/FC_ISTM.py" in Terminal on a mac.
+	- The test should print "Test successful!" if the test succeeded.
+
