@@ -41,10 +41,8 @@ def main():
 			data_in = data_in.rstrip('\r')
 			data_in = data_in.rstrip('\n')
 
-			if(data_in == TEST_STRING):
-				done = True
-
 			print('Arduino Time: ' + data_in)
+
 		except:
 			pass
 
