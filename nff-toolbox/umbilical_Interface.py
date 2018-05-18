@@ -7,7 +7,7 @@ def initUmbilical():
 		#initiate serial port to read data from
 		umbilicalSer = serial.Serial(
 		    port=myPort,
-		    baudrate=9600,
+		    baudrate=115200,
 		    timeout=5, #give up reading after 5 seconds
 		    parity=serial.PARITY_ODD,
 		    stopbits=serial.STOPBITS_TWO,
@@ -16,56 +16,56 @@ def initUmbilical():
 		print("connected to port " + myPort)
 		return umbilicalSer
 	except:
-		print("<== Error connecting to " + myPort + " ==>")
+		print("<== Error connecting to umbilical at " + myPort + " ==>")
 		exit()
 
 
 def readUmbilicalData(umbilicalSer):
-	umbilicalData = []
-	spot = 0
+	umbilicalData = {'Bus Voltage': 0,'Shunt Voltage': 0, 'Load Voltage': 0, 'Current': 0, 'Power': 0}
+	n = 0
+
 	while umbilicalSer.isOpen():
 		dataString = ''
 		try:
 			#get data
-			dataString = str(umbilicalSer.readline())
+			dataString = umbilicalSer.readline().decode('utf-8')
 			#print(dataString)
 		except:
-			print("could not read")
+			print("could not read umbilical data")
 			continue
 			
 		try:
-			#cut off extra characters
+			#cut off extra characters leftover from arduino serial
 			#first two characters are b'
 			#last 5, are \r\n'
-			dataString = dataString[2:len(dataString)-5]
+			#dataString = dataString[2:len(dataString)-5]
 			data = dataString.split(":")
-			print(data)
+			
 			if data[0] == 'Bus Voltage':
-				spot = 0
+				umbilicalData['Bus Voltage'] = removeExtraSpaces(data[1])
 			elif data[0] == 'Shunt Voltage':
-				spot = 1
+				umbilicalData['Shunt Voltage'] = removeExtraSpaces(data[1])
 			elif data[0] == 'Load Voltage':
-				spot = 2
+				umbilicalData['Load Voltage'] = removeExtraSpaces(data[1])
 			elif data[0] == 'Current':
-				spot = 3
+				umbilicalData['Current'] = removeExtraSpaces(data[1])
 			elif data[0] == 'Power':
-				spot = 4
+				umbilicalData['Power'] = removeExtraSpaces(data[1])
 			else:
 				continue
 
-			umbilicalData[spot] = [data[0], data[1]]
-
-			if spot == 4:
-				spot = 0
+			if n == 4:
 				return umbilicalData
 			else:
-				spot += 1
+				n += 1
 				continue
 		except:
 			print('error handling data')
+			return {}
 
-ser = initUmbilical()
-while True:
-	myData = readUmbilicalData(ser)
-	#print(myData)
-	pass
+def removeExtraSpaces(str):
+	for i in str:
+		if i == ' ':
+			str = str[1:]
+		else:
+			return str
