@@ -10,4 +10,8 @@ For Mac and Linux:
 
 Currently unavailable for Windows, as the Curses module is only available for Mac and Linux
 
-
+For Windows, download an app that makes use of Windows Subsystem for Linux, then run from there.
+Notes on connecting to Arduino from WSL:
+To make sure port is free, run sudo chmod 666 /dev/ttyS[COM port #]
+Ensure correct baud rate: stty -F /dev/ttyS[COM port #] sane [Baud rate]
+Then simply run python script, and when prompted attempt to connect to /dev/ttyS[COM port #]
