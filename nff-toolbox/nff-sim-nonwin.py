@@ -17,7 +17,7 @@ import serial
 import os
 import curses
 from curses import panel
-
+from umbilical_Interface import initUmbilical, readUmbilicalData
 
 PROGRESS_BAR_LENGTH = 80
 PACKET_INTERVAL = 0.1
