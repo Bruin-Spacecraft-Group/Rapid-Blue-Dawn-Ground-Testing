@@ -1,9 +1,11 @@
+import csv
+
 class TelemetryProcessor:
     """
-    load in any calibration files or csv map (of the order of values in input list)
+    Loads in any calibration files or csv map (of the order of values in input list)
     """
     def __init__(packetMap):
-        pass
+        with open(
 
     """
     take in a list of data in specific known order,
