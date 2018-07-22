@@ -6,7 +6,7 @@ import config
 from telemetry_processor import TelemetryProcessor 
 
 class Server():
-    def __init__(self, input_addr, output_addr, packet_definitions):
+    def __init__(self, input_addr, output_addr, packet_map):
         context = zmq.Context()
         self.input_socket = context.socket(zmq.SUB)
         self.input_socket.connect(input_addr)
@@ -15,7 +15,7 @@ class Server():
         self.output_socket = context.socket(zmq.PUB)
         self.output_socket.bind(output_addr)
 
-        self.processor = TelemetryProcessor(packet_definitions)
+        self.processor = TelemetryProcessor(packet_map)
     
     def serve(self, textFile):
         """
@@ -25,7 +25,7 @@ class Server():
         while True:
             #read in raw packet from serial manager
             raw_packet = self.input_socket.recv_pyobj()
-            processed_packet = self.processor.process(packet)
+            processed_packet = self.processor.processPacket(packet)
             
             #save data to text file
             textFile.write("Timestamp: {},".format(datetime.datetime.now()))
@@ -50,3 +50,7 @@ def main():
     txtfile = open(FILENAME, "w")
 
     myServer.serve(txtfile)
+
+if __name__ == "__main__":
+    main()
+    
