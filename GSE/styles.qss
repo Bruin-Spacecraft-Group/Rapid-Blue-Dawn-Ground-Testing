@@ -1,0 +1,8 @@
+QMainWindow {
+	background: black;
+	color: white;
+}
+QWidget {
+	background: black;
+	color: white;
+}

@@ -1,0 +1,4 @@
+QWidget {
+	background: black;
+	color: white;
+}
