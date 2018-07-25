@@ -18,15 +18,17 @@ class Server():
         self.processor = TelemetryProcessor(packet_map)
     
     def serve(self, textFile):
+        print("server running...")
         """
         db.connect("testing")
         session = db.SESSIONMAKER()
         """
         while True:
             #read in raw packet from serial manager
-            raw_packet = self.input_socket.recv_pyobj()
-            processed_packet = self.processor.processPacket(packet)
-            
+            raw_packet = self.input_socket.recv_string()
+            print("recieved string {}".format(raw_packet))
+            processed_packet = self.processor.processPacket(raw_packet)
+            print(processed_packet)
             #save data to text file
             textFile.write("Timestamp: {},".format(datetime.datetime.now()))
             for key, value in processed_packet.items():
@@ -42,12 +44,13 @@ def main():
     input_addr = input("Please enter the Serial Manager's publish address:")
     output_addr = input("Please enter the adress for the GUI to subscribe to:")
     """
-    myServer = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH)
+    packetMap = ["spacecraft_time", "flow_rate", "mosfet_state", "timer", "current", "voltage"]
+    myServer = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, packetMap)
     
     date = str(datetime.datetime.now())
     FILENAME = 'Raw_Data/' + date
     FILENAME = FILENAME.replace(':', '_')
-    txtfile = open(FILENAME, "w")
+    txtfile = open(FILENAME, "w+")
 
     myServer.serve(txtfile)
 

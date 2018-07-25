@@ -15,7 +15,7 @@ class SerialManager():
                 write_timeout=config.TIMEOUT
             )
         except:
-            print("Cannot connect to Blue Dawn port!")
+            print("ERROR: Cannot connect to Blue Dawn port!")
             return
 
         try:
@@ -26,7 +26,7 @@ class SerialManager():
                 write_timeout=config.TIMEOUT
             )
         except:
-            print("Cannot connect to Umbilical port!")
+            print("ERROR: Cannot connect to Umbilical port!")
             return
 
         try:
@@ -38,7 +38,7 @@ class SerialManager():
             self.command_socket.connect(command_addr)
             self.command_socket.setsockopt_string(zmq.SUBSCRIBE, "")
         except:
-            print("Cannot connect to sockets!")
+            print("ERROR: Cannot connect to sockets!")
             return
 
 
