@@ -1,0 +1,91 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'commandWindow.ui'
+#
+# Created by: PyQt5 UI code generator 5.10.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1173, 708)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.labelConsole = QtWidgets.QLabel(self.centralwidget)
+        self.labelConsole.setObjectName("labelConsole")
+        self.gridLayout.addWidget(self.labelConsole, 4, 0, 1, 1)
+        self.lineEditConsole = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEditConsole.setObjectName("lineEditConsole")
+        self.gridLayout.addWidget(self.lineEditConsole, 4, 1, 1, 4)
+        self.listViewBlue = QtWidgets.QListView(self.centralwidget)
+        self.listViewBlue.setObjectName("listViewBlue")
+        self.gridLayout.addWidget(self.listViewBlue, 1, 0, 1, 2, QtCore.Qt.AlignLeft)
+        spacerItem = QtWidgets.QSpacerItem(20, 306, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem, 1, 2, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(1134, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 2, 0, 1, 5)
+        self.labelBlue = QtWidgets.QLabel(self.centralwidget)
+        self.labelBlue.setObjectName("labelBlue")
+        self.gridLayout.addWidget(self.labelBlue, 0, 0, 1, 2)
+        self.listWidgetConsole = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidgetConsole.setObjectName("listWidgetConsole")
+        self.gridLayout.addWidget(self.listWidgetConsole, 3, 1, 1, 4)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 823, 280))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.listViewNff = QtWidgets.QListView(self.scrollAreaWidgetContents)
+        self.listViewNff.setGeometry(QtCore.QRect(0, 0, 821, 311))
+        self.listViewNff.setObjectName("listViewNff")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout.addWidget(self.scrollArea, 1, 3, 1, 1)
+        self.labelNff = QtWidgets.QLabel(self.centralwidget)
+        self.labelNff.setObjectName("labelNff")
+        self.gridLayout.addWidget(self.labelNff, 0, 3, 1, 1)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1173, 39))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionNew = QtWidgets.QAction(MainWindow)
+        self.actionNew.setObjectName("actionNew")
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionSave_AS = QtWidgets.QAction(MainWindow)
+        self.actionSave_AS.setObjectName("actionSave_AS")
+        self.menuFile.addAction(self.actionNew)
+        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionSave_AS)
+        self.menuFile.addAction(self.actionExit)
+        self.menubar.addAction(self.menuFile.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.labelConsole.setText(_translate("MainWindow", "Console: "))
+        self.labelBlue.setText(_translate("MainWindow", "Blue Dawn "))
+        self.labelNff.setText(_translate("MainWindow", "NFF"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.actionNew.setText(_translate("MainWindow", "New"))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionSave_AS.setText(_translate("MainWindow", "Save As"))
+
