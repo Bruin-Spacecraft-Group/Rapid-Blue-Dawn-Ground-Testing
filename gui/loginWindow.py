@@ -7,8 +7,15 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from commandWindow import CommandWindow
 
 class Ui_MainWindow(object):
+    def openWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = CommandWindow();
+        self.ui.setupUi(self.window)
+        self.window.show()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1056, 418)
@@ -35,6 +42,7 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.lineEdit_umb)
         self.button_enter = QtWidgets.QPushButton(self.centralwidget)
         self.button_enter.setObjectName("button_enter")
+        self.button_enter.clicked.connect(self.openWindow)
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.button_enter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
