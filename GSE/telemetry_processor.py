@@ -9,15 +9,17 @@ class TelemetryProcessor:
     """
     Loads in any calibration files or csv map (of the order of values in input list)
     """
-    def __init__(packetMap):
-        #Selects csv file with unknown file name
+    def __init__(self, packetMap):
+        self.packetMap = packetMap
+        """#Selects csv file with unknown file name
         packet = glob.glob('*.csv')
-        return packet
+        return packet"""
         
     """
     Adds limit status to each parameter in dictionary
     """
-    def addLimitStatus(data):
+    """
+    def addLimitStatus(self, data):
         limits = [1e7, 0, 1e7, 333000, 3500, 3500, 3500, 1000, 1000, 1000, 5, 5, 5, \
                   1000, 1000, 1000, 1, 1, 1, 1, 1, 1, 100, 100, 10000, 10000, 1e7, \
                   5, 5, 5, 1000, 1000, 1000, 0, 1e7]
@@ -38,13 +40,20 @@ class TelemetryProcessor:
                     else:
                         count += 1
                         pass
-                        
+    """                 
     """
     Takes in a list of data in specific known order,
     outputs list of dict of the form [{("first_data_set", calibrated value), ....}, \
     {"second_data_set", calibrated value), ....}]
     """
-    def processPacket(packet):
+    def processPacket(self, packet):
+        packet_item_list = packet.split(",")
+        processed = dict()
+        for name, item in zip(self.packetMap, packet_item_list):
+            processed[name] = item
+
+        return processed
+        """
         #Reads csv and places into a dictionary
         with open(packet, newline = '') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -66,4 +75,4 @@ class TelemetryProcessor:
                 
             data_dict = addLimitStatus(data_dict)
             return data_dict
-           
+        """

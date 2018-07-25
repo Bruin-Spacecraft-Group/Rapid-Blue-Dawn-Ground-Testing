@@ -1,33 +1,26 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'c:\Users\andre\Documents\BruinSpace\Rapid\Rapid-Blue-Dawn-Ground-Testing\GSE\mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Ui_monitorWindow import Ui_Monitor
 
-class Ui_MainWindow(object):
-    def openWindow(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Monitor();
-        self.ui.setupUi(self.window)
-        self.window.show()
-
-    def setupUi(self, loginWindow):
-        loginWindow.setObjectName("loginWindow")
-        loginWindow.resize(706, 320)
+class Ui_mainWindow(object):
+    def setupUi(self, mainWindow):
+        mainWindow.setObjectName("mainWindow")
+        mainWindow.resize(706, 320)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(loginWindow.sizePolicy().hasHeightForWidth())
-        loginWindow.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(mainWindow.sizePolicy().hasHeightForWidth())
+        mainWindow.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("images/MainLogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        loginWindow.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(loginWindow)
+        mainWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(9, 9, 661, 261))
@@ -81,27 +74,28 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.buttonConnect.sizePolicy().hasHeightForWidth())
         self.buttonConnect.setSizePolicy(sizePolicy)
+        self.buttonConnect.setDefault(False)
+        self.buttonConnect.setFlat(False)
         self.buttonConnect.setObjectName("buttonConnect")
-        self.buttonConnect.clicked.connect(self.openWindow)
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.buttonConnect)
         self.verticalLayout.addWidget(self.groupBox)
         self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(2, 8)
-        loginWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(loginWindow)
+        mainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(mainWindow)
         self.statusbar.setObjectName("statusbar")
-        loginWindow.setStatusBar(self.statusbar)
+        mainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(loginWindow)
-        QtCore.QMetaObject.connectSlotsByName(loginWindow)
+        self.retranslateUi(mainWindow)
+        QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
-    def retranslateUi(self, loginWindow):
+    def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
-        loginWindow.setWindowTitle(_translate("loginWindow", "Bruin Space GSE Setup"))
-        self.label.setText(_translate("loginWindow", "Project Rapid - Blue Dawn"))
-        self.groupBox.setTitle(_translate("loginWindow", "Setup"))
-        self.labelBlue.setText(_translate("loginWindow", "Blue Dawn Port"))
-        self.labelUmb.setText(_translate("loginWindow", "Umbilical Port"))
-        self.buttonConnect.setText(_translate("loginWindow", "Connect"))
+        mainWindow.setWindowTitle(_translate("mainWindow", "Bruin Space GSE Setup"))
+        self.label.setText(_translate("mainWindow", "Project Rapid - Blue Dawn"))
+        self.groupBox.setTitle(_translate("mainWindow", "Setup"))
+        self.labelBlue.setText(_translate("mainWindow", "Blue Dawn Port"))
+        self.labelUmb.setText(_translate("mainWindow", "Umbilical Port"))
+        self.buttonConnect.setText(_translate("mainWindow", "Connect"))
 
 import resources_rc

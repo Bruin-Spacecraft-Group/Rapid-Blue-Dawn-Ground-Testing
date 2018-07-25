@@ -6,3 +6,7 @@ QWidget {
 	background: black;
 	color: white;
 }
+QLabel {
+	background: black;
+	color: white;
+}
