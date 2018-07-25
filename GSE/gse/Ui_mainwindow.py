@@ -1,21 +1,33 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\andre\Documents\BruinSpace\Rapid\Rapid-Blue-Dawn-Ground-Testing\GSE\gse\mainwindow.ui'
+# Form implementation generated from reading ui file 'mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Ui_monitorWindow import Ui_Monitor
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(683, 303)
+class Ui_mainWindow(object):
+    def openWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Monitor();
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    def setupUi(self, loginWindow):
+        loginWindow.setObjectName("loginWindow")
+        loginWindow.resize(706, 320)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(loginWindow.sizePolicy().hasHeightForWidth())
+        loginWindow.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("images/MainLogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        loginWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(loginWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(9, 9, 661, 261))
@@ -39,39 +51,57 @@ class Ui_MainWindow(object):
         self.formLayout = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.formLayout.setContentsMargins(0, 0, 0, 0)
         self.formLayout.setObjectName("formLayout")
-        self.label_3 = QtWidgets.QLabel(self.formLayoutWidget)
-        self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_3)
-        self.lineEdit = QtWidgets.QLineEdit(self.formLayoutWidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
-        self.label_2 = QtWidgets.QLabel(self.formLayoutWidget)
-        self.label_2.setObjectName("label_2")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_2)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.formLayoutWidget)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEdit_2)
-        self.pushButton = QtWidgets.QPushButton(self.formLayoutWidget)
-        self.pushButton.setObjectName("pushButton")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.SpanningRole, self.pushButton)
+        self.labelBlue = QtWidgets.QLabel(self.formLayoutWidget)
+        self.labelBlue.setObjectName("labelBlue")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelBlue)
+        self.lineEditBlue = QtWidgets.QLineEdit(self.formLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEditBlue.sizePolicy().hasHeightForWidth())
+        self.lineEditBlue.setSizePolicy(sizePolicy)
+        self.lineEditBlue.setInputMask("")
+        self.lineEditBlue.setText("")
+        self.lineEditBlue.setObjectName("lineEditBlue")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEditBlue)
+        self.labelUmb = QtWidgets.QLabel(self.formLayoutWidget)
+        self.labelUmb.setObjectName("labelUmb")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelUmb)
+        self.lineEditUmb = QtWidgets.QLineEdit(self.formLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEditUmb.sizePolicy().hasHeightForWidth())
+        self.lineEditUmb.setSizePolicy(sizePolicy)
+        self.lineEditUmb.setObjectName("lineEditUmb")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEditUmb)
+        self.buttonConnect = QtWidgets.QPushButton(self.formLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonConnect.sizePolicy().hasHeightForWidth())
+        self.buttonConnect.setSizePolicy(sizePolicy)
+        self.buttonConnect.setObjectName("buttonConnect")
+        self.buttonConnect.clicked.connect(self.openWindow)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.buttonConnect)
         self.verticalLayout.addWidget(self.groupBox)
         self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(2, 8)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        loginWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(loginWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        loginWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(loginWindow)
+        QtCore.QMetaObject.connectSlotsByName(loginWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, loginWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Bruin Space GSE Setup"))
-        self.label.setText(_translate("MainWindow", "Project Rapid - Blue Dawn"))
-        self.groupBox.setTitle(_translate("MainWindow", "Setup"))
-        self.label_3.setText(_translate("MainWindow", "Blude Dawn Port"))
-        self.label_2.setText(_translate("MainWindow", "Umbilical Port"))
-        self.pushButton.setText(_translate("MainWindow", "Connect"))
+        loginWindow.setWindowTitle(_translate("loginWindow", "Bruin Space GSE Setup"))
+        self.label.setText(_translate("loginWindow", "Project Rapid - Blue Dawn"))
+        self.groupBox.setTitle(_translate("loginWindow", "Setup"))
+        self.labelBlue.setText(_translate("loginWindow", "Blue Dawn Port"))
+        self.labelUmb.setText(_translate("loginWindow", "Umbilical Port"))
+        self.buttonConnect.setText(_translate("loginWindow", "Connect"))
 
 import resources_rc
