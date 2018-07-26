@@ -1,6 +1,8 @@
 import serial
 import config
+import sys
 import zmq
+from zmq import ZMQError
 
 
 class SerialManager():
@@ -15,8 +17,8 @@ class SerialManager():
                 write_timeout=config.TIMEOUT
             )
         except:
-            print("ERROR: Cannot connect to Blue Dawn port!")
-            return
+            print("ERROR: Cannot connect to Blue Dawn port at {}!".format(bd_port))
+            sys.exit()
 
         try:
             self.ub = serial.Serial(
@@ -26,8 +28,8 @@ class SerialManager():
                 write_timeout=config.TIMEOUT
             )
         except:
-            print("ERROR: Cannot connect to Umbilical port!")
-            return
+            print("ERROR: Cannot connect to Umbilical port at {}!".format(ub_port))
+            sys.exit()
 
         try:
             context = zmq.Context()
@@ -39,14 +41,18 @@ class SerialManager():
             self.command_socket.setsockopt_string(zmq.SUBSCRIBE, "")
         except:
             print("ERROR: Cannot connect to sockets!")
-            return
+            sys.exit()
+        print("serial manager initialized")
 
 
     # read a line of data from port
     # will block until newline recieved or timeout reached
     def readLine(self, ser):
         if ser.isOpen():
-            return ser.readLine()
+            packet = ser.readline()
+            packet = packet[2:len(packet)-5]
+            
+            return packet
         else:
             print("port {} not open".format(ser))  # TODO: this might not work
             return None
@@ -59,15 +65,17 @@ class SerialManager():
     def manage(self):
         while True:
             try:
-                command = self.command_socket.recv_string(flags=NOBLOCK)
+                command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
                 print("Sending command {}".format(command))
                 self.writeToPort(self.bd, command)
             except ZMQError:
                 pass
 
             bd_data = self.readLine(self.bd)
-            ub_data = self.readLine(self.ub)
-            packet = {"bd": bd_data, "ub": ub_data}
+            #ub_data = self.readLine(self.ub)
+            #packet = bd_data + "," + ub_data
+            packet = bd_data
+            print(packet)
             self.server_socket.send_pyobj(packet)
 
 

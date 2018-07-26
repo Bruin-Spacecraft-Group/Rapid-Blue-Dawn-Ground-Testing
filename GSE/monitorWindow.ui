@@ -26,11 +26,11 @@
      <height>741</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1">
+   <layout class="QVBoxLayout" name="monitor_wrapper" stretch="2,1">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QGroupBox" name="bd_group_box">
+       <widget class="QGroupBox" name="bd_groupbox">
         <property name="title">
          <string>Blue Dawn</string>
         </property>
@@ -150,32 +150,86 @@
            </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QLabel" name="label_24">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1">
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="bd_acceleration_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_acceleration_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_acceleration_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="7" column="1">
-           <widget class="QLabel" name="label_25">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="bd_mag_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_mag_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_mag_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="bd_ang_vel_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_ang_vel_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bd_ang_vel_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_2">
+       <widget class="QGroupBox" name="nff_groupbox">
         <property name="title">
          <string>NFF Data</string>
         </property>
@@ -188,7 +242,82 @@
            <height>461</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
+         <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="velocity_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="velocity_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="velocity_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="attitude_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="attitude_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="attitude_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="acceleration_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="acceleration_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="acceleration_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="5" column="0">
            <widget class="QLabel" name="label_27">
             <property name="text">
@@ -203,17 +332,10 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_28">
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_29">
             <property name="text">
-             <string>Ang Vel Vector</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Atitude Vector</string>
+             <string>Liftoff Warning</string>
             </property>
            </widget>
           </item>
@@ -224,10 +346,17 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_29">
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_12">
             <property name="text">
-             <string>Liftoff Warning</string>
+             <string>Atitude Vector</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_28">
+            <property name="text">
+             <string>Ang Vel Vector</string>
             </property>
            </widget>
           </item>
@@ -238,24 +367,10 @@
             </property>
            </widget>
           </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="label_31">
-            <property name="text">
-             <string>Escape Warning</string>
-            </property>
-           </widget>
-          </item>
           <item row="10" column="0">
            <widget class="QLabel" name="label_32">
             <property name="text">
              <string>Chute Warning</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Altitude</string>
             </property>
            </widget>
           </item>
@@ -266,22 +381,22 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_3">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Value</string>
+             <string>Altitude</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="label_6">
+          <item row="9" column="0">
+           <widget class="QLabel" name="label_31">
             <property name="text">
-             <string>Value</string>
+             <string>Escape Warning</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="exp_time">
             <property name="text">
              <string>Value</string>
             </property>
@@ -294,6 +409,27 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="flight_state">
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="altitude">
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLabel" name="liftoff_warning">
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </widget>
+          </item>
           <item row="12" column="0">
            <widget class="QLabel" name="label_34">
             <property name="text">
@@ -301,75 +437,65 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_35">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QLabel" name="label_36">
-            <property name="text">
-             <string>Value</string>
-            </property>
-           </widget>
-          </item>
           <item row="8" column="1">
-           <widget class="QLabel" name="label_37">
-            <property name="text">
-             <string>Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="label_38">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLabel" name="label_39">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="label_40">
-            <property name="text">
-             <string>Value, Value, Value</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QLabel" name="label_41">
+           <widget class="QLabel" name="rcs_warning">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item row="10" column="1">
-           <widget class="QLabel" name="label_42">
+           <widget class="QLabel" name="chute_warning">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="1">
-           <widget class="QLabel" name="label_43">
+          <item row="9" column="1">
+           <widget class="QLabel" name="escape_warning">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item row="12" column="1">
-           <widget class="QLabel" name="label_44">
+           <widget class="QLabel" name="fault_warning">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QLabel" name="landing_warning">
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="ang_vel_x">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ang_vel_y">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ang_vel_z">
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

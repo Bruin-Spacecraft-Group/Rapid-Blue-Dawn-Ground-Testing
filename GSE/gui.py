@@ -23,6 +23,7 @@ class AppWindow(QMainWindow):
 
     def openMonitor(self):
         print("opening")
+        self.connectToSerialDevices()
         self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
@@ -33,8 +34,9 @@ class AppWindow(QMainWindow):
 
 
     def connectToSerialDevices(self):
-        bd_port = "" #get addr
-        ub_port = "" #get addr
+        print("connecting to serial devices")
+        bd_port = self.ui.bd_port.text()
+        ub_port = self.ui.ub_port.text()
         self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
         self.mySerialManager.manage()
     
@@ -62,29 +64,14 @@ class AppWindow(QMainWindow):
         self.socketThread.start()
 
     def gotSig(self, msg):
-        print("\nReceived New Packet... \n{}".format(msg))
+        print("\nReceived New Packet...")
         for key in msg:
-            self.monitor.bd_group_box.findChild(QLabel, key).setText(msg[key])
-
-        """for item in msg['telem']:
-            tid = item[0]
-            val = item[1]
-            print("tid: ", tid, "val: ", val)
-            try:
-                prev = self.slots[tid].time
-            except KeyError:
-                print("Slot does not exist. Making new slot...")
-                prev = None
-                self.slots[tid] = Slot(tid, 0, None)
-
-            if self.slots[tid].time == None or curr > prev:
-                print("new data... updating")
-                self.slots[tid].value = val
-                self.slots[tid].time = curr
-                for plot in self.livePlots:
-                    plot.update(tid,val,curr)
-            else:
-                print("old data (prev: ", prev, "curr: ", curr,")")"""
+            #print(key)
+            #print(msg[key][0])
+            if self.monitor.nff_groupbox.findChild(QLabel, key):
+                self.monitor.nff_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
+            elif self.monitor.bd_groupbox.findChild(QLabel, key):
+                self.monitor.bd_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
 
 class SocketMonitor(QThread):
     signal = pyqtSignal(dict)

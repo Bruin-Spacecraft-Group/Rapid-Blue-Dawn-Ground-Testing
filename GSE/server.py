@@ -19,16 +19,14 @@ class Server():
     
     def serve(self, textFile):
         print("server running...")
-        """
-        db.connect("testing")
-        session = db.SESSIONMAKER()
-        """
+        
         while True:
             #read in raw packet from serial manager
             raw_packet = self.input_socket.recv_string()
-            print("recieved string {}".format(raw_packet))
+            print("received string")
+            #print("recieved string {}".format(raw_packet))
             processed_packet = self.processor.processPacket(raw_packet)
-            print(processed_packet)
+            #print(processed_packet)
             #save data to text file
             textFile.write("Timestamp: {},".format(datetime.datetime.now()))
             for key, value in processed_packet.items():
@@ -38,6 +36,7 @@ class Server():
 
             #publish processed packet data object to GUI
             self.output_socket.send_pyobj(processed_packet)
+            print("sent obj")
 
 def main():
     """
