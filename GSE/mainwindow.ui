@@ -33,12 +33,6 @@
         <height>25</height>
        </size>
       </property>
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
       <property name="text">
        <string>Project Rapid - Blue Dawn</string>
       </property>
@@ -51,7 +45,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,5">
          <item>
           <widget class="QLabel" name="labelBlue">
            <property name="maximumSize">
@@ -61,7 +55,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Blue Dawn Port</string>
+            <string>Blue Dawn Port:</string>
            </property>
           </widget>
          </item>
@@ -78,11 +72,11 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,5">
          <item>
           <widget class="QLabel" name="labelUmb">
            <property name="text">
-            <string>Umbilical Port</string>
+            <string>Umbilical Port:</string>
            </property>
           </widget>
          </item>

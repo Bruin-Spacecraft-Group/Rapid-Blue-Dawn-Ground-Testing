@@ -1,12 +1,10 @@
-QMainWindow {
-	background: black;
-	color: white;
-}
 QWidget {
-	background: black;
-	color: white;
+	background: white;
+	color: black;
+	font-family: "Microsoft JhengHei UI Light";
+	font-size: 18px;
 }
-QLabel {
-	background: black;
-	color: white;
-}
+/*
+QGroupBox {
+	background: #2f3061;
+}*/

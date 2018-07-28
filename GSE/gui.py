@@ -8,6 +8,7 @@ from Ui_mainwindow import Ui_mainWindow
 from Ui_monitorWindow import Ui_Monitor
 
 from serial_manager import SerialManager
+from console import ConsoleWidget
 
 
 class AppWindow(QMainWindow):
@@ -23,13 +24,15 @@ class AppWindow(QMainWindow):
 
     def openMonitor(self):
         print("opening")
-        self.connectToSerialDevices()
+        #self.connectToSerialDevices()
         self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
         self.monitor = Ui_Monitor()
         self.monitor.setupUi(self.monitor_window)
         self.monitor_window.show()
+        self.console = ConsoleWidget()
+        self.monitor.console.addWidget(self.console)
         self.openSockets()
 
 

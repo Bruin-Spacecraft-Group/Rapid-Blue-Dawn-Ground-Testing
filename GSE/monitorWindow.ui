@@ -25,6 +25,9 @@
        <property name="title">
         <string>Blue Dawn</string>
        </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
        <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
         <item row="0" column="0">
          <widget class="QLabel" name="spacecraft_time_name">
@@ -475,16 +478,21 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="command_groupbox">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>200</height>
+       <height>250</height>
       </size>
      </property>
      <property name="title">
       <string>Command</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="console"/>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
