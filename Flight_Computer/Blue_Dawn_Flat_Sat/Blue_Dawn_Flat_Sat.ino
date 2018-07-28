@@ -21,7 +21,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-#include <FreqMeasure.h>       // For flowmeter, attaches to digital pin 8
+//#include <FreqMeasure.h>       // For flowmeter, attaches to digital pin 8
+#include <FreqCounter.h>       // alternative for flowmeter, attaches to digital pin 5
 
 //NFF globals
 #define NUMDATAFIELDS   21      // Number of data fields for each packet.
@@ -30,6 +31,10 @@
 #define MAXFIELDSIZE    20      // Maximum size of any data field in the serial packet.
 #define SUCCESS         0       // Success return code.
 #define ERROR           -1      // Error return code.
+
+//Blue Dawn globals
+#define MOSFET          4       // pin number for switch enable signal
+#define FLOWMETER       5       // pin for freqCounter library, use 8 for freqMeasure
 
 // Struct to contain all NFF flight data in one object.
 struct NRdata
@@ -50,8 +55,10 @@ struct NRdata
 } flight_info;
 
 
-bool mosfet_on = false;                 // Used for checking if mosfet is on
-long int frq_measure = 0;                       // Used for recording flow freq
+//bool mosfet_on = false;         // Used for checking if mosfet is on
+int mosfet_on;
+long int frequency = 0;           // Used for recording flow freq
+long int timer = 999999;     // Used as coutndown timer to trigger switch
 
 int parse_serial_packet(const char* buf, NRdata* flight_data);
 
@@ -65,52 +72,67 @@ void setup()
                             
   // Initialize the struct and all its data to 0.
   memset(&flight_info, 0, sizeof(flight_info));
-
-  FreqMeasure.begin();
+  pinMode(MOSFET, OUTPUT);
+  //FreqMeasure.begin();
   
 }
 
 
 void loop()
 {
-  //TODO: why MAXBUFSIZE twice? 
+  Serial.println("looping");
+  //Init variables
+  String data_str;    //String for housing csv data, to be printed to serial
+    //TODO: why MAXBUFSIZE twice? 
   char buffer[MAXBUFSIZE + 1 + MAXBUFSIZE] = {0};      // Buffer for receiving serial packets.
-  int res;                                // Value for storing results of function calls.
+  int res = 0;                                // Value for storing results of function calls.
 
-  // Read in serial data up to the maximum serial packet size.
+  // collect spacecraft time at start
+  double start_time = millis();
+  data_str = String(start_time); 
+  
+  // Read from serial
+  // Read up to the maximum serial packet size.
   res = Serial.readBytes(buffer, MAXBUFSIZE);
-
   // If no bytes are read, pass and continue collecting telemetry
+  
   if (res != 0)
   {
     //GSE Command
     if (buffer[0] == 'C') {
-      
+      Serial.println("GSE command read");
     }
     //NFF Data
     else if (buffer[0] == 'N') {
-      
+      res = parse_serial_packet(buffer, &flight_info);
+      data_str += nr_str(&flight_info);
     }
     // Null terminate the buffer (Possibly unnecessary).
-    buffer[res] = '\0';
-
-    // Update the current flight info with the new data.
-    res = parse_serial_packet(buffer, &flight_info);
-    
+    buffer[res] = '\0'; 
   }
-
+  
   //Collect telemetry
-  String data_str;
+  data_str += get_telemetry();
+  
+  // Time elapsed
+  double dt = millis() - start_time;
+  data_str += "," + String(dt);
 
-  // Time field
-  data_str += String(millis()) + ",";
+  Serial.println("printing data str");
+  //send data packet to GSE
+  Serial.println(data_str); 
+}
 
-  // NR data
-  {
-    data_str += nr_str(&flight_info);
-  }
+////////////
+// get_telemetry:
+// collect basic blue dawn telemetry and return csv string
+////////////
 
+String get_telemetry() {
+  String telemetry;
+  
   // Flowmeter
+  /*
   double sum=0;
   int count=0;
   if (FreqMeasure.available()) {
@@ -118,23 +140,37 @@ void loop()
     sum = sum + FreqMeasure.read();
     count = count + 1;
     if (count > 5) {
-      data_str += "," + String(FreqMeasure.countToFrequency(sum / count));
+      telemetry += "," + String(FreqMeasure.countToFrequency(sum / count));
       sum = 0;
       count = 0;
     }
-  } else {
-    data_str += ",0";
   }
+  else {
+    telemetry += ",0";
+  }
+  */
+  //TODO: test if this blocks or not
+  FreqCounter::f_comp= 8;             // Set compensation to 12
+  FreqCounter::start(1000);           // Start counting with gatetime of 100ms
+  while (FreqCounter::f_ready == 0)   // wait until counter ready
+   
+  frequency = FreqCounter::f_freq;            // read result
+  telemetry += "," + String(frequency);
 
- // Mosfet
-  data_str += "," + String(mosfet_on ? "1" : "0");
+  // timer
+  long int time_remaining = timer - millis();
+  telemetry += "," + String(time_remaining);
+  if (time_remaining <= 0) {
+    digitalWrite(MOSFET, HIGH);
+  }
   
-  // End time
-  data_str += "," + String(millis());
-
-  Serial.println(data_str);
-  
+  // Mosfet
+  mosfet_on = digitalRead(MOSFET);
+  telemetry += "," + String(mosfet_on);
+  //telemetry += "," + String(mosfet_on ? "1" : "0");
+  return telemetry;
 }
+
 
 ////////////
 // nr_str:
@@ -144,7 +180,7 @@ void loop()
 String nr_str(NRdata* flight_data) {
   
   String ret;
-  ret += String(flight_data->flight_state);
+  ret += "," + String(flight_data->flight_state);
   ret += "," + String(flight_data->exptime);
   ret += "," + String(flight_data->altitude);
 
