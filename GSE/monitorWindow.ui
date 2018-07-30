@@ -74,7 +74,7 @@
         <item row="5" column="0">
          <widget class="QLabel" name="voltage_name">
           <property name="text">
-           <string>Voltage</string>
+           <string>Umbilical_Voltage</string>
           </property>
          </widget>
         </item>
@@ -141,7 +141,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="current_name">
           <property name="text">
-           <string>Current</string>
+           <string>Umbilical_Current</string>
           </property>
          </widget>
         </item>
