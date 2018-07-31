@@ -1,0 +1,10 @@
+QWidget {
+	background: white;
+	color: black;
+	font-family: "Microsoft JhengHei UI Light";
+	font-size: 18px;
+}
+/*
+QGroupBox {
+	background: #2f3061;
+}*/
