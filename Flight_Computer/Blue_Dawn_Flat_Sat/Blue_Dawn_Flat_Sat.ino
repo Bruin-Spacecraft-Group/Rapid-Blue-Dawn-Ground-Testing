@@ -61,7 +61,11 @@ long int frequency = 0;           // Used for recording flow freq
 long int timer = 999999;     // Used as coutndown timer to trigger switch
 
 int parse_serial_packet(const char* buf, NRdata* flight_data);
-
+void write_to_register();
+byte read_from_register();
+int duration;
+void set_timer(int duration);
+void set_pin(String type, int pinNumber);
 
 void setup()
 {
@@ -80,7 +84,7 @@ void setup()
 
 void loop()
 {
-  Serial.println("looping");
+  //Serial.println("looping");
   //Init variables
   String data_str;    //String for housing csv data, to be printed to serial
     //TODO: why MAXBUFSIZE twice? 
@@ -101,6 +105,7 @@ void loop()
     //GSE Command
     if (buffer[0] == 'C') {
       Serial.println("GSE command read");
+        if 
     }
     //NFF Data
     else if (buffer[0] == 'N') {
@@ -118,7 +123,7 @@ void loop()
   double dt = millis() - start_time;
   data_str += "," + String(dt);
 
-  Serial.println("printing data str");
+  //Serial.println("printing data str");
   //send data packet to GSE
   Serial.println(data_str); 
 }
@@ -348,5 +353,20 @@ int parse_serial_packet(const char* buf, NRdata* flight_data)
   }
 }
 
+//GSE Command Functions
+
+void write_to_register(){
+  ;
+}
+byte read_from_register(){
+  ;
+}
+void set_timer(int* duration) {
+  ;
+}
+
+void set_pin(String* type, int* pinNumber){
+  ;
+}
 
 

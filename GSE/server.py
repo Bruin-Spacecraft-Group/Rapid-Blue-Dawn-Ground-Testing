@@ -22,8 +22,9 @@ class Server():
         
         while True:
             #read in raw packet from serial manager
+            #raw_packet = self.input_socket.recv_string()
             raw_packet = self.input_socket.recv_string()
-            print("received string")
+            print("received string {}".format(raw_packet))
             #print("recieved string {}".format(raw_packet))
             processed_packet = self.processor.processPacket(raw_packet)
             #print(processed_packet)
