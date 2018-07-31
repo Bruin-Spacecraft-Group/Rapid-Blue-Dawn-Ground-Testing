@@ -24,8 +24,8 @@ class AppWindow(QMainWindow):
 
     def openMonitor(self):
         print("opening")
-        #self.connectToSerialDevices()
-        self.socketThread = None
+        self.connectToSerialDevices()
+        #self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
         self.monitor = Ui_Monitor()
