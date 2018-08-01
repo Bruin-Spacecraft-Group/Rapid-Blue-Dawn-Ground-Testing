@@ -48,24 +48,65 @@ class Commander:
         self.output_socket.bind(config.COMMANDER_PUBLISH)
     
     def command(self):
-        inputString = input("Please submit a command: ")
-        args = inputString.split(" ")
-        command = args[0]
+        while True:
+            inputString = input("Please submit a command: ")
+            args = inputString.split(" ")
+            command = args[0]
+            #start character for gse commands
+            #used for flight computer's parsing
+            commandString = "c"
 
-        if command == "mosfet":
-            if args[1] == "ENABLE":
-                print("enabling electrodes")
-                self.output_socket.send_string("cm1")
+            #mosfet ENABLE/DISABLE
+            if command == "mosfet":
+                commandString += "m"
+                if args[1] == "ENABLE":
+                    print("enabling electrodes")
+                    commandString += "1"
+                else:
+                    print("disabling electrodes")
+                    commandString += "0"
+            #timer value [in seconds]
+            elif command == "timer":
+                commandString += "t"
+                if args[1] != None:
+                    print("setting timer for {} seconds".format(args[1]))
+                    commandString += str(args[1])
+                else:
+                    print("please provide a timer duration")
+            #reset
+            elif command == "reset":
+                commandString += "r"
+                print("resetting")
+            #writeToRegister addr value
+            elif command == "writeToRegister":
+                pass
+            #readFromRegister addr
+            elif command == "readFromRegister":
+                pass
+            #setPin digital/analog pin# HIGH/LOW
+            elif command == "setPin":
+                if args[1] == "digital":
+                    pass
+                elif args[1] == "analog":
+                    pass
+                pass
+            #readPin digital/analog pin#
+            elif command == "readPin":
+                pass
+            #TODO
+            elif command == "writeToSD":
+                pass
+            #TODO
+            elif command == "readFromSD":
+                pass
+            #sendNFFPacket
+            elif command == "sendNFFPacket":
+                pass
             else:
-                print("disabling electrodes")
-                self.output_socket.send_string("mosfet 0")
-        elif command == "timer":
-            if args[1] != None:
-                print("setting timer for {} seconds".format(args[1]))
-            else:
-                print("please provide a timer duration")
-        elif command == "reset":
-            print("resetting")
+                print('bad command "{}"'.format(command))
+
+            #send command to serial manager
+            self.output_socket.send_string(commandString) 
 
 if __name__ == '__main__':
     commander = Commander()
