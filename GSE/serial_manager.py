@@ -2,6 +2,8 @@ import serial
 import config
 import sys
 import zmq
+from time import sleep
+import argparse
 from zmq import ZMQError
 
 
@@ -50,17 +52,19 @@ class SerialManager():
     def readLine(self, ser):
         if ser.isOpen():
             packet = ser.readline()
-            packet = packet[2:len(packet)-5]
+            packet = packet.decode("utf-8")
+            #print(packet)
+            #packet = packet[2:len(packet)-5]
             
             return packet
         else:
-            print("port {} not open".format(ser))  # TODO: this might not work
+            print("port not open")
             return None
 
     # send data to port
     # will block until finishes sending or timeout reached
-    def writeToPort(self, port, data):
-        port.write(data)
+    def writeToPort(self, ser, data):
+        ser.write(data.encode("utf-8"))
 
     def manage(self):
         while True:
@@ -70,28 +74,39 @@ class SerialManager():
                 self.writeToPort(self.bd, command)
             except ZMQError:
                 pass
-
-            bd_data = self.readLine(self.bd)
-            #ub_data = self.readLine(self.ub)
-            #packet = bd_data + "," + ub_data
-            packet = bd_data
+            bd_data=''
+            ub_data=''
+            while bd_data=='':
+                bd_data = self.readLine(self.bd) 
+            while ub_data=='': 
+                ub_data = self.readLine(self.ub)
+            packet = str(bd_data) + "," + str(ub_data)
+            #packet = bd_data
             print(packet)
-            self.server_socket.send_pyobj(packet)
+            self.server_socket.send_string(packet)
 
 
-def main():
+
+def main(args):
+    """
     bd_port = input("Please enter Blue Dawn Port:")
     ub_port = input("Please enter Umbilical Port:")
-
+    """
     """
     server_addr = input("Please enter Server Address:")
     command_addr = input("Please enter Commander Address:")
     """
 
-    mySerialManager = SerialManager(
-        bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+    mySerialManager = SerialManager(args.bd_port, args.ub_port, \
+        config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
     mySerialManager.manage()
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Send commands to flight computer')
+    parser.add_argument('bd_port', help='a string specifying the command')
+    parser.add_argument('ub_port', help='for commands which take additional arguments, e.g. timer')
+
+    args = parser.parse_args()
+    print(args)
+    main(args)

@@ -1,8 +1,12 @@
 import sys
 import zmq
-import config
+import subprocess
+import os
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel
 from PyQt5.QtCore import QThread, pyqtSignal
+
+import config
 
 from Ui_mainwindow import Ui_mainWindow 
 from Ui_monitorWindow import Ui_Monitor
@@ -24,8 +28,8 @@ class AppWindow(QMainWindow):
 
     def openMonitor(self):
         print("opening")
-        #self.connectToSerialDevices()
-        self.socketThread = None
+        self.connectToSerialDevices()
+        #self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
         self.monitor = Ui_Monitor()
@@ -34,14 +38,16 @@ class AppWindow(QMainWindow):
         self.console = ConsoleWidget()
         self.monitor.console.addWidget(self.console)
         self.openSockets()
-
+        
 
     def connectToSerialDevices(self):
         print("connecting to serial devices")
         bd_port = self.ui.bd_port.text()
         ub_port = self.ui.ub_port.text()
-        self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
-        self.mySerialManager.manage()
+        subprocess.Popen("python serial_manager.py {} {}".format(bd_port, ub_port), shell=True)
+        #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), bd_port, ub_port), shell=True)
+        #self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+        #self.mySerialManager.manage()
     
     def openSockets(self):
         print("opening sockets")
@@ -72,9 +78,17 @@ class AppWindow(QMainWindow):
             #print(key)
             #print(msg[key][0])
             if self.monitor.nff_groupbox.findChild(QLabel, key):
-                self.monitor.nff_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
+                item = self.monitor.nff_groupbox.findChild(QLabel, key)
             elif self.monitor.bd_groupbox.findChild(QLabel, key):
-                self.monitor.bd_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
+                item = self.monitor.bd_groupbox.findChild(QLabel, key)
+            else:
+                continue
+            item.setText(str(msg[key][0]))
+            if msg[key][1] == 1:
+                item.setStyleSheet('color: #f93943') #red
+            else:
+                item.setStyleSheet('color: #063D23') #green
+
 
 class SocketMonitor(QThread):
     signal = pyqtSignal(dict)
