@@ -14,10 +14,22 @@ class TelemetryProcessor:
     def processPacket(self, packet):
         #splits csv data packet into list
         data = packet.split(',')
+        
+        #potential TODO: convert values to numbers to process
+
+        # if nff telemetry included, take umbilical data from back 
+        # and put at the end of bd telemetry (pos 14)
+        if len(data) > 17:
+            for i in range(2):
+                tmp = data.pop()
+                data.insert(14, tmp)
 
         #convert flowmeter freq to flow rate
-        #data[22] = data[22] * 2.4/880 - 0.0009
+        if data[11] != "0":
+            data[11] = float(data[11]) * 2.4/880 - 0.0009
+            data[11] = str(data[11])
 
+       
         data_dict = dict()
         #pair up names and data, checking limits 
         for key, value in zip(self.packetMap, data):

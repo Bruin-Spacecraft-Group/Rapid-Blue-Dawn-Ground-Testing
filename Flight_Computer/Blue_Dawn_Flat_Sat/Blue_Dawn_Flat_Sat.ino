@@ -60,10 +60,11 @@ int mosfet_on;
 long int frequency = 0;           // Used for recording flow freq
 long int timer = 999999;     // Used as coutndown timer to trigger switch
 
+//function declarations
 int parse_serial_packet(const char* buf, NRdata* flight_data);
+
 void write_to_register();
 byte read_from_register();
-int duration;
 void set_timer(int duration);
 void set_pin(String type, int pinNumber);
 
@@ -74,9 +75,11 @@ void setup()
                             // transfer from the NFF, this ensures that enough time has passed
                             // to allow for a complete transfer before timing out).
                             
-  // Initialize the struct and all its data to 0.
+  // Initialize the nff struct and all its data to 0.
   memset(&flight_info, 0, sizeof(flight_info));
+  //set pins
   pinMode(MOSFET, OUTPUT);
+  
   //FreqMeasure.begin();
   
 }
@@ -86,7 +89,9 @@ void loop()
 {
   //Serial.println("looping");
   //Init variables
-  String data_str;    //String for housing csv data, to be printed to serial
+  String data_str;    //String for storing csv data, to be printed to serial
+  String nff_str;     //String for storing decoded nff data, 
+                      //optionally appended to data_str at the end of script
     //TODO: why MAXBUFSIZE twice? 
   char buffer[MAXBUFSIZE + 1 + MAXBUFSIZE] = {0};      // Buffer for receiving serial packets.
   int res = 0;                                // Value for storing results of function calls.
@@ -95,23 +100,43 @@ void loop()
   double start_time = millis();
   data_str = String(start_time); 
   
-  // Read from serial
-  // Read up to the maximum serial packet size.
+  // Read from serial up to the maximum serial packet size.
   res = Serial.readBytes(buffer, MAXBUFSIZE);
   // If no bytes are read, pass and continue collecting telemetry
   
   if (res != 0)
   {
-    //GSE Command
-    if (buffer[0] == 'C') {
-      Serial.println("GSE command read");
-        if 
+    if (buffer[0] == 'c'){
+      //TODO: rest of commands
+      //GSE Command
+      switch(buffer[1]){
+        case 'p':
+          Serial.print("GSE Ping Received");
+          break;
+        case 'm':
+          if (buffer[2] == '1') {
+            digitalWrite(MOSFET, HIGH);
+          }
+          else if (buffer[2] == '0') {
+            digitalWrite(MOSFET, LOW);
+          }
+          break;
+        case 't':
+          String temp_string = "";
+          for (int i = 2; i < res; i++){
+            temp_string += buffer[i];
+          }
+          set_timer(temp_string.toInt());
+          break;
+      }
     }
+    
     //NFF Data
-    else if (buffer[0] == 'N') {
+    else if (buffer[0] == 'n'){
       res = parse_serial_packet(buffer, &flight_info);
-      data_str += nr_str(&flight_info);
+      nff_str += nr_str(&flight_info);
     }
+    
     // Null terminate the buffer (Possibly unnecessary).
     buffer[res] = '\0'; 
   }
@@ -123,6 +148,10 @@ void loop()
   double dt = millis() - start_time;
   data_str += "," + String(dt);
 
+  if (nff_str != ""){
+    data_str += nff_str;
+  }
+  
   //Serial.println("printing data str");
   //send data packet to GSE
   Serial.println(data_str); 
@@ -135,6 +164,26 @@ void loop()
 
 String get_telemetry() {
   String telemetry;
+
+  //Sensor board
+  //TODO: actually hook up board
+  /*
+  int accel_x, int accel_y, int accel_z = 0, 0, 0;
+  int gyro_x, int gyro_y, int gyro_z = 0, 0, 0;
+  int mag_x, int mag_y, int mag_z = 0, 0, 0;
+  telemetry += "," + String(accel_x) + "," + String(accel_y) + "," + String(accel_z);
+  telemetry += "," + String(gyro_x) + "," + String(gyro_y) + "," + String(gyro_z);
+  telemetry += "," + String(mag_x) + "," + String(mag_y) + "," + String(mag_z);
+  */
+  int sensorData[] = {0,0,0, 0,0,0, 0,0,0};
+  for(int x = 0; x < 9; x++){
+    telemetry += "," + String(sensorData[x]);
+  }
+  // Mosfet
+  mosfet_on = digitalRead(MOSFET);
+  telemetry += "," + String(mosfet_on);
+  //telemetry += "," + String(mosfet_on ? "1" : "0");
+  return telemetry;
   
   // Flowmeter
   /*
@@ -169,11 +218,7 @@ String get_telemetry() {
     digitalWrite(MOSFET, HIGH);
   }
   
-  // Mosfet
-  mosfet_on = digitalRead(MOSFET);
-  telemetry += "," + String(mosfet_on);
-  //telemetry += "," + String(mosfet_on ? "1" : "0");
-  return telemetry;
+  
 }
 
 
@@ -361,11 +406,7 @@ void write_to_register(){
 byte read_from_register(){
   ;
 }
-void set_timer(int* duration) {
-  ;
-}
-
-void set_pin(String* type, int* pinNumber){
+void set_timer(int duration) {
   ;
 }
 

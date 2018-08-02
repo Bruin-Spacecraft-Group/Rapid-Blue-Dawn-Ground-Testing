@@ -56,8 +56,11 @@ class Commander:
             #used for flight computer's parsing
             commandString = "c"
 
+            #ping
+            if command == "ping":
+                commandString += "p"
             #mosfet ENABLE/DISABLE
-            if command == "mosfet":
+            elif command == "mosfet":
                 commandString += "m"
                 if args[1] == "ENABLE":
                     print("enabling electrodes")

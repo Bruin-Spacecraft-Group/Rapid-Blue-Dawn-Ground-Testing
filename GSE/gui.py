@@ -78,9 +78,17 @@ class AppWindow(QMainWindow):
             #print(key)
             #print(msg[key][0])
             if self.monitor.nff_groupbox.findChild(QLabel, key):
-                self.monitor.nff_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
+                item = self.monitor.nff_groupbox.findChild(QLabel, key)
             elif self.monitor.bd_groupbox.findChild(QLabel, key):
-                self.monitor.bd_groupbox.findChild(QLabel, key).setText(str(msg[key][0]))
+                item = self.monitor.bd_groupbox.findChild(QLabel, key)
+            else:
+                continue
+            item.setText(str(msg[key][0]))
+            if msg[key][1] == 1:
+                item.setStyleSheet('color: #f93943') #red
+            else:
+                item.setStyleSheet('color: #063D23') #green
+
 
 class SocketMonitor(QThread):
     signal = pyqtSignal(dict)

@@ -1,6 +1,8 @@
+#serial configs
 TIMEOUT = 0.02
 BAUDRATE = 115200
 
+#ports
 SERIAL_SUBSCRIBE = "tcp://localhost:8000"
 SERIAL_PUBLISH = "tcp://*:8001"
 SERVER_SUBSCRIBE = "tcp://localhost:8001"
@@ -10,6 +12,8 @@ GUI_PUBLISH = "tcp://*:8003"
 COMMANDER_SUBSCRIBE = "tcp://localhost:8003"
 COMMANDER_PUBLISH = "tcp://*:8000"
 
+#packet information
+#note this list is not used currently
 DATA_CSV_MAP = [
     'time_start', 'flight_state', 'exp_time', 'altitude', 'velocity_x', \
     'velocity_y', 'velocity_z', 'attitude_x', 'attitude_y', 'attitude_z', \
@@ -21,8 +25,26 @@ DATA_CSV_MAP = [
     'time_end'
 ]
 
+#TODO: better limits
+#TODO: lower limits? Multiple limit levels?
+#map includes names in correct order, paired with upper limit value
 PACKETMAP = {
-    'spacecraft_time':1e7, 
+    'spacecraft_time':1e7,
+    'mosfet_state':-1,  
+    'bd_acceleration_x':5, 
+    'bd_acceleration_y':5, 
+    'bd_acceleration_z':5,
+    'bd_ang_vel_x':1000, 
+    'bd_ang_vel_y':1000, 
+    'bd_ang_vel_z':1000,
+    'bd_mag_x':1000,
+    'bd_mag_y':1000,
+    'bd_mag_z':1000, 
+    'flow_rate':1000,
+    'timer':1e7,
+    'dt':1e7,
+    'voltage':10000,
+    'current':10000, 
     'flight_state':-1, 
     'exp_time':1e7, 
     'altitude':333000, 
@@ -43,20 +65,5 @@ PACKETMAP = {
     'escape_warning':1, 
     'chute_warning':1,
     'landing_warning':1, 
-    'fault_warning':1, 
-    'flow_rate':1000,
-    'mosfet_state':-1,  
-    'timer':1e7,
-    'bd_acceleration_x':5, 
-    'bd_acceleration_y':5, 
-    'bd_acceleration_z':5,
-    'bd_ang_vel_x':1000, 
-    'bd_ang_vel_y':1000, 
-    'bd_ang_vel_z':1000,
-    'bd_mag_x':1000,
-    'bd_mag_y':1000,
-    'bd_mag_z':1000, 
-    'dt':1e7,
-    'current':10000, 
-    'voltage':10000
+    'fault_warning':1
 }
