@@ -81,8 +81,7 @@ class SerialManager():
             while ub_data=='': 
                 ub_data = self.readLine(self.ub)
             packet = str(bd_data) + "," + str(ub_data)
-            #packet = bd_data
-            print(packet)
+            #print(packet)
             self.server_socket.send_string(packet)
 
 

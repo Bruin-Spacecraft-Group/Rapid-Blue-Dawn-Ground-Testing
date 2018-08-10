@@ -73,7 +73,7 @@ class AppWindow(QMainWindow):
         self.socketThread.start()
 
     def gotSig(self, msg):
-        print("\nReceived New Packet...")
+        #print("\nReceived New Packet...")
         for key in msg:
             #print(key)
             #print(msg[key][0])
@@ -100,7 +100,7 @@ class SocketMonitor(QThread):
         print("running")
         while True:
             msg = self.socket.recv_pyobj()
-            print(msg)
+            #print(msg)
             self.signal.emit(msg)
 
 app = QApplication(sys.argv)

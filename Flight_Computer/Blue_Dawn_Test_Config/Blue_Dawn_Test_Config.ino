@@ -23,7 +23,7 @@
 
 //#include <FreqMeasure.h>       // For flowmeter, attaches to digital pin 8
 #include <FreqCounter.h>       // alternative for flowmeter, attaches to digital pin 5
-
+#include <SD.h>
 //NFF globals
 #define NUMDATAFIELDS   21      // Number of data fields for each packet.
 #define MAXBUFSIZE      201     // Maximum buffer size for serial packet (200)
@@ -111,7 +111,7 @@ void loop()
       //GSE Command
       switch(buffer[1]){
         case 'p':
-          Serial.print("GSE Ping Received");
+          Serial.println("GSE Ping Received");
           break;
         case 'm':
           if (buffer[2] == '1') {
@@ -155,6 +155,7 @@ void loop()
   //Serial.println("printing data str");
   //send data packet to GSE
   Serial.println(data_str); 
+  delay(1000);
 }
 
 ////////////

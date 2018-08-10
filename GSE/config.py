@@ -30,7 +30,6 @@ DATA_CSV_MAP = [
 #map includes names in correct order, paired with upper limit value
 PACKETMAP = {
     'spacecraft_time':1e7,
-    'mosfet_state':-1,  
     'bd_acceleration_x':5, 
     'bd_acceleration_y':5, 
     'bd_acceleration_z':5,
@@ -40,6 +39,7 @@ PACKETMAP = {
     'bd_mag_x':1000,
     'bd_mag_y':1000,
     'bd_mag_z':1000, 
+    'mosfet_state':1,  
     'flow_rate':1000,
     'timer':1e7,
     'dt':1e7,
