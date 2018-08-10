@@ -107,6 +107,7 @@ void loop()
   if (res != 0)
   {
     if (buffer[0] == 'c'){
+      String temp_string = "";
       //TODO: rest of commands
       //GSE Command
       switch(buffer[1]){
@@ -122,12 +123,25 @@ void loop()
           }
           break;
         case 't':
-          String temp_string = "";
           for (int i = 2; i < res; i++){
             temp_string += buffer[i];
           }
           set_timer(temp_string.toInt());
           break;
+        case 'r':
+          Serial.println("GSE Reset Command Received");
+          break;
+        case 's':
+          Serial.println("GSE Set Pin Command Received");
+          break;
+        case 'q':
+          Serial.println("GSE Read Pin Command Received");
+          break;
+        case 'd':
+          Serial.println("GSE Test SD Command Received");
+          break;
+        default:
+          Serial.println("error reading command: command not found");
       }
     }
     

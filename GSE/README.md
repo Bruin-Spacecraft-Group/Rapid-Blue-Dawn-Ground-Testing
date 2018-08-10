@@ -29,6 +29,6 @@ Each command follows the following structure: `command specifier value`. Each fi
 | `mosfet [ENABLE/DISABLE]`              | sets the mosfet enable pin to high or low to activate/deactivate electrodes.                                                | `m1` or `m0`                 |
 | `timer [value]`                        | sets a timer on the flight computer for the designated amount of time in seconds. Value must be a number greater than zero. | `t[number]`                |
 | `setPin [pinNumber] [HIGH/LOW]`        | sets digital pin to HIGH or LOW                                                                                             | `s[single hex digit][h/l]` |
-| `readPin [digital/analog] [pinNumber]` | reads digital or analog pin. Digital pins must be between 0-13, and analog between 0-5.                                     | `r[d/a][single hex digit]` |
+| `readPin [digital/analog] [pinNumber]` | reads digital or analog pin. Digital pins must be between 0-13, and analog between 0-5.                                     | `q[d/a][single hex digit]` |
 | `testSD [option]`                      | make use of SD library's example test functions. Options choose from `readWrite`, `cardInfo`, and `listFiles`.              | `dr`, `di`, or `df`            |
 | `sendNFFPacket`                         | sends one packet from NFF data stream to flight computer.                                                                   | `n[rest of NFF packet]`    |

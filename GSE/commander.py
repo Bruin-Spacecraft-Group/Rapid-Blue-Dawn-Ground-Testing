@@ -13,104 +13,108 @@ class Commander:
     def command(self):
         while True:
             inputString = input("Please submit a command: ")
-            args = inputString.split(" ")
-            command = args[0]
-            #start character for gse commands
-            #used for flight computer's parsing
-            commandString = "c"
+            try:
+                args = inputString.split(" ")
+                command = args[0]
+                #start character for gse commands
+                #used for flight computer's parsing
+                commandString = "c"
 
-            #ping
-            if command == "ping":
-                commandString += "p"
-                print("pinging flight computer")
-            #mosfet ENABLE/DISABLE
-            elif command == "mosfet":
-                commandString += "m"
-                if args[1] == "ENABLE":
-                    print("enabling electrodes")
-                    commandString += "1"
-                elif args[1] == "DISABLE":
-                    print("disabling electrodes")
-                    commandString += "0"
-                else:
-                    print("please provide a valid mosfet state (ENABLE/DISABLE)")
-                    return
-            #timer value [in seconds]
-            elif command == "timer":
-                commandString += "t"
-                if args[1] != None and args[1] > 0:
-                    print("setting timer for {} seconds".format(args[1]))
-                    commandString += str(args[1])
-                else:
-                    print("please provide a valid timer duration")
-                    return
-            #reset
-            elif command == "reset":
-                commandString += "r"
-                print("resetting")
-            #setPin pin# HIGH/LOW
-            elif command == "setPin":
-                commandString += "s"
-                if args[1] >= 0 and args[1] <= 13:
-                    commandString += hex(int(args[1])) 
-                    if args[2] == "HIGH":
-                        commandString += "h"
-                        print("setting pin {} HIGH".format(args[1]))
-                    elif args[2] == "LOW":
-                        commandString += "l"
-                        print("setting pin {} LOW".format(args[1]))
+                #ping
+                if command == "ping":
+                    commandString += "p"
+                    print("pinging flight computer")
+                #mosfet ENABLE/DISABLE
+                elif command == "mosfet":
+                    commandString += "m"
+                    if args[1] == "ENABLE":
+                        print("enabling electrodes")
+                        commandString += "1"
+                    elif args[1] == "DISABLE":
+                        print("disabling electrodes")
+                        commandString += "0"
                     else:
-                        print("please input valid pin state (HIGH/LOW)")
+                        print("please provide a valid mosfet state (ENABLE/DISABLE)")
                         return
-                else:
-                    print("please provide a valid pin (0-13)")
-                    return
-            #readPin digital/analog pin#
-            elif command == "readPin":
-                commandString += "p"
-                if args[1] == "digital":
-                    commandString += "d"
-                    if args[2] >= 0 and args[2] <= 13:
-                        commandString += hex(int(args[2])) 
-                        print("reading {} pin {}".format(args[1], args[2]))
+                #timer value [in seconds]
+                elif command == "timer":
+                    commandString += "t"
+                    if args[1] != None:
+                        print("setting timer for {} seconds".format(args[1]))
+                        commandString += args[1]
+                    else:
+                        print("please provide a valid timer duration")
+                        return
+                #reset
+                elif command == "reset":
+                    commandString += "r"
+                    print("resetting")
+                #setPin pin# HIGH/LOW
+                elif command == "setPin":
+                    commandString += "s"
+                    pin = int(args[1])
+                    if pin >= 0 and pin <= 13:
+                        commandString += hex(pin) 
+                        if args[2] == "HIGH":
+                            commandString += "h"
+                            print("setting pin {} HIGH".format(args[1]))
+                        elif args[2] == "LOW":
+                            commandString += "l"
+                            print("setting pin {} LOW".format(args[1]))
+                        else:
+                            print("please input valid pin state (HIGH/LOW)")
+                            return
                     else:
                         print("please provide a valid pin (0-13)")
                         return
-                elif args[1] == "analog":
-                    commandString += "a"
-                    if args[2] >= 0 and args[2] <= 5:
-                        commandString += hex(int(args[1])) 
-                        print("reading {} pin {}".format(args[1], args[2]))
+                #readPin digital/analog pin#
+                elif command == "readPin":
+                    commandString += "q"
+                    pin = int(args[2])
+                    if args[1] == "digital":
+                        commandString += "d"
+                        if pin >= 0 and pin <= 13:
+                            commandString += hex(int(args[2])) 
+                            print("reading {} pin {}".format(args[1], args[2]))
+                        else:
+                            print("please provide a valid pin (0-13)")
+                            return
+                    elif args[1] == "analog":
+                        commandString += "a"
+                        if pin >= 0 and pin <= 5:
+                            commandString += hex(int(args[1])) 
+                            print("reading {} pin {}".format(args[1], args[2]))
+                        else:
+                            print("please provide a valid pin (0-5)")
+                            return
                     else:
-                        print("please provide a valid pin (0-5)")
-                        return
+                        print("please provide a valid pin type (digital/analog)")
+                elif command == "testSD":
+                    commandString += "d"
+                    if args[1] == "readWrite":
+                        commandString += "r"
+                    elif args[1] == "cardInfo":
+                        commandString += "i"
+                    elif args[1] == "listFiles":
+                        commandString += "f"
+                    else:
+                        print("please provide a valid specifier (readWrite/cardInfo/listFiles")
+                #TODO
+                elif command == "writeToSD":
+                    print("How about you try a command we actually like? We don't support this one.")
+                    return
+                #TODO
+                elif command == "readFromSD":
+                    print("How about you try a command we actually like? We don't support this one.")
+                    return
+                #sendNFFPacket
+                elif command == "sendNFFPacket":
+                    print("How about you try a command we actually like? We don't support this one.")
+                    return
                 else:
-                    print("please provide a valid pin type (digital/analog)")
-            elif command == "testSD":
-                commandString += "d"
-                if args[1] == "readWrite":
-                    commandString += "r"
-                elif args[1] == "cardInfo":
-                    commandString += "i"
-                elif args[1] == "listFiles":
-                    commandString += "f"
-                else:
-                    print("please provide a valid specifier (readWrite/cardInfo/listFiles")
-            #TODO
-            elif command == "writeToSD":
-                print("How about you try a command we actually like? We don't support this one.")
-                return
-            #TODO
-            elif command == "readFromSD":
-                print("How about you try a command we actually like? We don't support this one.")
-                return
-            #sendNFFPacket
-            elif command == "sendNFFPacket":
-                print("How about you try a command we actually like? We don't support this one.")
-                return
-            else:
-                print('bad command "{}"'.format(command))
-
+                    print('bad command "{}"'.format(command))
+            except:
+                print("error parsing command {}".format(inputString))
             #send command to serial manager
             self.output_socket.send_string(commandString) 
 
