@@ -98,7 +98,8 @@ void loop()
 
   // collect spacecraft time at start
   double start_time = millis();
-  data_str = String(start_time); 
+  data_str = "telemetry,";
+  data_str += String(start_time); 
   
   // Read from serial up to the maximum serial packet size.
   res = Serial.readBytes(buffer, MAXBUFSIZE);
@@ -107,42 +108,48 @@ void loop()
   if (res != 0)
   {
     if (buffer[0] == 'c'){
-      String temp_string = "";
+      String resp_str = "response,";
+      String temp_str = "";
       //TODO: rest of commands
       //GSE Command
       switch(buffer[1]){
         case 'p':
-          Serial.println("GSE Ping Received");
+          resp_str += "GSE Ping Received";
           break;
         case 'm':
           if (buffer[2] == '1') {
             digitalWrite(MOSFET, HIGH);
+            resp_str += "Set MOSFET HIGH";
           }
           else if (buffer[2] == '0') {
             digitalWrite(MOSFET, LOW);
+            resp_str += "Set MOSFET LOW";
           }
           break;
         case 't':
           for (int i = 2; i < res; i++){
-            temp_string += buffer[i];
+            temp_str += buffer[i];
           }
-          set_timer(temp_string.toInt());
+          set_timer(temp_str.toInt());
+          resp_str += "Set timer to ";
+          resp_str += temp_str;
           break;
         case 'r':
-          Serial.println("GSE Reset Command Received");
+          resp_str += "GSE Reset Command Received";
           break;
         case 's':
-          Serial.println("GSE Set Pin Command Received");
+          resp_str += "GSE Set Pin Command Received";
           break;
         case 'q':
-          Serial.println("GSE Read Pin Command Received");
+          resp_str += "GSE Read Pin Command Received";
           break;
         case 'd':
-          Serial.println("GSE Test SD Command Received");
+          resp_str += "GSE Test SD Command Received";
           break;
         default:
-          Serial.println("error reading command: command not found");
+          resp_str += "error reading command: command not found";
       }
+      Serial.println(resp_str);
     }
     
     //NFF Data

@@ -9,7 +9,9 @@ class Commander:
         context = zmq.Context()
         self.output_socket = context.socket(zmq.PUB)
         self.output_socket.bind(config.COMMANDER_PUBLISH)
-    
+        self.response_socket = context.socket(zmq.SUB)
+        self.response_socket.connect(config.COMMANDER_SUBSCRIBE)
+
     def command(self):
         while True:
             inputString = input("Please submit a command: ")
@@ -117,6 +119,19 @@ class Commander:
                 print("error parsing command {}".format(inputString))
             #send command to serial manager
             self.output_socket.send_string(commandString) 
+
+            # while True:
+            #     print("looping")
+            #     response = self.response_socket.recv_pyobj()
+            #     if response[0] == 'response':
+            #         print(response[1])
+            #         break
+            #     else:
+            #         continue
+            # response = self.response_socket.recv_pyobj()
+            # if response[0] == 'response':
+            #     print("commander received response")
+            #     print(response[1])
 
 if __name__ == '__main__':
     commander = Commander()

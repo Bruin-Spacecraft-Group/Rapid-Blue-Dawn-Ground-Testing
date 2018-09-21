@@ -23,7 +23,17 @@ class TelemetryProcessor:
             for i in range(2):
                 tmp = data.pop()
                 data.insert(14, tmp)
+        #check response type
+        if data[0] == 'telemetry':
+            print("read telemetry")
+            return self.processTelemetry(data[1:]), 'telemetry'
+        elif data[0] == 'response':
+            print("read response")
+            return data[1:], 'response'
+        else:
+            print("invalid packet, no response type")
 
+    def processTelemetry(self, data):
         #convert flowmeter freq to flow rate
         if data[11] != "0":
             data[11] = float(data[11]) * 2.4/880 - 0.0009

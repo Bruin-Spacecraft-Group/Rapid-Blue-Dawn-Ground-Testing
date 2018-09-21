@@ -44,7 +44,10 @@ class AppWindow(QMainWindow):
         print("connecting to serial devices")
         bd_port = self.ui.bd_port.text()
         ub_port = self.ui.ub_port.text()
-        subprocess.Popen("python serial_manager.py {} {}".format(bd_port, ub_port), shell=True)
+        self.serialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+        self.serialManager.start()
+        #subprocess.Popen("python serial_manager.py {} {}".format(bd_port, ub_port), shell=True)
+        
         #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), bd_port, ub_port), shell=True)
         #self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
         #self.mySerialManager.manage()
@@ -101,13 +104,20 @@ class SocketMonitor(QThread):
         while True:
             msg = self.socket.recv_pyobj()
             #print(msg)
-            self.signal.emit(msg)
+            if msg[0] == 'telemetry':
+                print("received telemetry")
+                self.signal.emit(msg[1])
+            elif msg[0] == 'response':
+                print("received response")
 
-app = QApplication(sys.argv)
-w = AppWindow()
-#w.openSockets()
 
-w.show()
-#w.connectToSerialDevices()
+if __name__ == '__main__':
 
-sys.exit(app.exec_())
+    app = QApplication(sys.argv)
+    w = AppWindow()
+    #w.openSockets()
+
+    w.show()
+    #w.connectToSerialDevices()
+
+    sys.exit(app.exec_())

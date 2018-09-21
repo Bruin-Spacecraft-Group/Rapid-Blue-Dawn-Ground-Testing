@@ -26,19 +26,19 @@ class Server():
                 raw_packet = self.input_socket.recv_string()
                 print("received string {}".format(raw_packet))
                 
-                processed_packet = self.processor.processPacket(raw_packet)
-                
+                processed_packet, packet_type = self.processor.processPacket(raw_packet)
+
                 #TODO: update this to a more useful form
                 #save data to text file
-                textFile.write("Timestamp: {},".format(datetime.datetime.now()))
-                for key, value in processed_packet.items():
-                    textFile.write("{}: {},".format(key, value))
-                textFile.write("\n")
-                textFile.flush()
+                # textFile.write("Timestamp: {},".format(datetime.datetime.now()))
+                # for key, value in processed_packet[0].items():
+                #     textFile.write("{}: {},".format(key, value))
+                # textFile.write("\n")
+                # textFile.flush()
 
                 #publish processed packet data object to GUI
-                self.output_socket.send_pyobj(processed_packet)
-                print("sent obj")
+                self.output_socket.send_pyobj([packet_type, processed_packet])
+                print("sent obj\n")
             except Exception as e:
                 print("error processing input, exception raised: {}".format(e))
 

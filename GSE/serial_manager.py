@@ -5,11 +5,13 @@ import zmq
 from time import sleep
 import argparse
 from zmq import ZMQError
+from PyQt5.Qt import QThread
 
 
-class SerialManager():
+class SerialManager(QThread):
     # initialize manager with ports to manage
     def __init__(self, bd_port, ub_port, server_addr, command_addr):
+        QThread.__init__(self)
         # Try connecting to the ports first, and see if we can actually connect to the ports
         try:
             self.bd = serial.Serial(
@@ -84,6 +86,29 @@ class SerialManager():
             #print(packet)
             self.server_socket.send_string(packet)
 
+    def run(self):
+        self.Active = True
+        while True:
+            try:
+                command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
+                print("Sending command {}".format(command))
+                self.writeToPort(self.bd, command)
+            except ZMQError:
+                pass
+            bd_data=''
+            ub_data=''
+            while bd_data=='':
+                bd_data = self.readLine(self.bd) 
+            while ub_data=='': 
+                ub_data = self.readLine(self.ub)
+            packet = str(bd_data) + "," + str(ub_data)
+            #print(packet)
+            self.server_socket.send_string(packet)
+    
+    def stop(self):
+        self.Active = False
+        print("stopping serial manager")
+        self.quit()
 
 
 def main(args):
