@@ -3,6 +3,7 @@ from qtconsole.rich_jupyter_widget import RichJupyterWidget
 from qtconsole.inprocess import QtInProcessKernelManager
 from PyQt5.QtCore import QThread
 
+# Is used for the Jupyter command prompt during testing gui
 class ConsoleWidget(RichJupyterWidget):
 
 

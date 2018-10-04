@@ -1,15 +1,16 @@
 import zmq
 import datetime
 import sys
-import config 
+import config
 import argparse
 
+# Commander sets up a Jupyter notebook in the gui to run commands during live testing
 class Commander:
     def __init__(self):
         context = zmq.Context()
         self.output_socket = context.socket(zmq.PUB)
         self.output_socket.bind(config.COMMANDER_PUBLISH)
-    
+
     def command(self):
         while True:
             inputString = input("Please submit a command: ")
@@ -54,7 +55,7 @@ class Commander:
                     commandString += "s"
                     pin = int(args[1])
                     if pin >= 0 and pin <= 13:
-                        commandString += hex(pin) 
+                        commandString += hex(pin)
                         if args[2] == "HIGH":
                             commandString += "h"
                             print("setting pin {} HIGH".format(args[1]))
@@ -74,7 +75,7 @@ class Commander:
                     if args[1] == "digital":
                         commandString += "d"
                         if pin >= 0 and pin <= 13:
-                            commandString += hex(int(args[2])) 
+                            commandString += hex(int(args[2]))
                             print("reading {} pin {}".format(args[1], args[2]))
                         else:
                             print("please provide a valid pin (0-13)")
@@ -82,7 +83,7 @@ class Commander:
                     elif args[1] == "analog":
                         commandString += "a"
                         if pin >= 0 and pin <= 5:
-                            commandString += hex(int(args[1])) 
+                            commandString += hex(int(args[1]))
                             print("reading {} pin {}".format(args[1], args[2]))
                         else:
                             print("please provide a valid pin (0-5)")
@@ -116,7 +117,7 @@ class Commander:
             except:
                 print("error parsing command {}".format(inputString))
             #send command to serial manager
-            self.output_socket.send_string(commandString) 
+            self.output_socket.send_string(commandString)
 
 if __name__ == '__main__':
     commander = Commander()

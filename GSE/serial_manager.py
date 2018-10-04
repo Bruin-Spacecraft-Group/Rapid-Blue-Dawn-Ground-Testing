@@ -6,7 +6,7 @@ from time import sleep
 import argparse
 from zmq import ZMQError
 
-
+# Handles serial connection with the Arduino
 class SerialManager():
     # initialize manager with ports to manage
     def __init__(self, bd_port, ub_port, server_addr, command_addr):
@@ -55,7 +55,7 @@ class SerialManager():
             packet = packet.decode("utf-8")
             #print(packet)
             #packet = packet[2:len(packet)-5]
-            
+
             return packet
         else:
             print("port not open")
@@ -77,8 +77,8 @@ class SerialManager():
             bd_data=''
             ub_data=''
             while bd_data=='':
-                bd_data = self.readLine(self.bd) 
-            while ub_data=='': 
+                bd_data = self.readLine(self.bd)
+            while ub_data=='':
                 ub_data = self.readLine(self.ub)
             packet = str(bd_data) + "," + str(ub_data)
             #print(packet)

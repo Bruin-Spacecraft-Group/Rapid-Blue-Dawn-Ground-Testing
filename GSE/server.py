@@ -3,8 +3,10 @@ import datetime
 import sys
 import config
 #import database
-from telemetry_processor import TelemetryProcessor 
+from telemetry_processor import TelemetryProcessor
 
+# A central server connecting multiple elements
+# Gets data from serial, sends to gui, handles commander, etc.
 class Server():
     def __init__(self, input_addr, output_addr, packet_map):
         context = zmq.Context()
@@ -16,18 +18,18 @@ class Server():
         self.output_socket.bind(output_addr)
 
         self.processor = TelemetryProcessor(packet_map)
-    
+
     def serve(self, textFile):
         print("server running...")
-        
+
         while True:
             #read in raw packet from serial manager
             try:
                 raw_packet = self.input_socket.recv_string()
                 print("received string {}".format(raw_packet))
-                
+
                 processed_packet = self.processor.processPacket(raw_packet)
-                
+
                 #TODO: update this to a more useful form
                 #save data to text file
                 textFile.write("Timestamp: {},".format(datetime.datetime.now()))
@@ -50,7 +52,7 @@ def main():
     """
     packetMap = ["spacecraft_time", "flow_rate", "mosfet_state", "timer", "current", "voltage"]
     myServer = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, packetMap)
-    
+
     date = str(datetime.datetime.now())
     FILENAME = 'Raw_Data/' + date
     FILENAME = FILENAME.replace(':', '_')
@@ -60,4 +62,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
