@@ -6,11 +6,11 @@ import atexit
 
 def launchGUI():
     ## launch on different thread, return a Popen object to close later, pip output to stdout
-    return(subprocess.Popen([sys.executable, 'gui.py'], stdout=subprocess.PIPE))
+    return(subprocess.Popen([sys.executable, 'gui.py']))
 
 def launchServer():
     ## launch on different thread, return a Popen object to close later, pip output to stdout
-    return(subprocess.Popen([sys.executable, 'server.py'], stdout=subprocess.PIPE))
+    return(subprocess.Popen([sys.executable, 'server.py']))
 
 def launchSerialManager():
     print('List of Serial Devices Found:')
@@ -22,8 +22,8 @@ def launchSerialManager():
     bd = input('Blue Dawn Serial: ')
     um = input('Umbilical Serial: ')
 
-    ## launch on different thread, return Popen object to close later, pipe output to stdout
-    return(subprocess.Popen([sys.executable, 'serial_manager.py', bd, um], stdout=subprocess.PIPE))
+    ## launch on different thread, return Popen object to close later
+    return(subprocess.Popen([sys.executable, 'serial_manager.py', bd, um]))
 
 def exit(ts):
     for t in ts:
