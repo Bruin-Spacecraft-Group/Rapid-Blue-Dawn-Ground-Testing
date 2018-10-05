@@ -8,11 +8,11 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 import config
 
-from Ui_mainwindow import Ui_mainWindow 
-from Ui_monitorWindow import Ui_Monitor
+from gui.Ui_mainwindow import Ui_mainWindow
+from gui.Ui_monitorWindow import Ui_Monitor
 
 from serial_manager import SerialManager
-from console import ConsoleWidget
+from console.console import ConsoleWidget
 
 
 class AppWindow(QMainWindow):
@@ -38,7 +38,7 @@ class AppWindow(QMainWindow):
         self.console = ConsoleWidget()
         self.monitor.console.addWidget(self.console)
         self.openSockets()
-        
+
 
     def connectToSerialDevices(self):
         print("connecting to serial devices")
@@ -48,7 +48,7 @@ class AppWindow(QMainWindow):
         #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), bd_port, ub_port), shell=True)
         #self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
         #self.mySerialManager.manage()
-    
+
     def openSockets(self):
         print("opening sockets")
         try:
@@ -56,14 +56,14 @@ class AppWindow(QMainWindow):
             self.telemSocket = context.socket(zmq.SUB)
             self.telemSocket.connect(config.GUI_SUBSCRIBE)
             self.telemSocket.setsockopt_string(zmq.SUBSCRIBE, '')
-            
+
             self.commandSocket = context.socket(zmq.PUB)
             self.commandSocket.bind(config.GUI_PUBLISH)
             print("sockets open")
         except (zmq.ZMQError, zmq.ZMQBindError) as err:
             print("Error: {}".format(err))
             return
-        
+
         if(self.socketThread is not None):
             self.socketThread.terminate()
             self.socketThread.socket.close()
