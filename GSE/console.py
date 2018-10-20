@@ -13,6 +13,7 @@ class ConsoleWidget(RichJupyterWidget):
             self.banner = customBanner
 
         self.font_size = 6
+        self.include_other_output = False
         self.kernel_manager = kernel_manager = QtInProcessKernelManager()
         kernel_manager.start_kernel(show_banner=False)
         kernel_manager.kernel.gui = 'qt'
