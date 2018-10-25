@@ -1,6 +1,7 @@
 import serial
 import datetime
-SERIAL_PORT = "COM3"
+#SERIAL_PORT = "COM8"
+SERIAL_PORT = input("Serial port of choice: ")
 
 try:
 	print("Opening Serial Port...")

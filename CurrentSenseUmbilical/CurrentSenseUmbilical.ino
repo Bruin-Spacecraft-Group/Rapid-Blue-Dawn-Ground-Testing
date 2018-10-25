@@ -49,7 +49,8 @@ void loop(void)
   Serial.print("Power:         "); Serial.print(power_mW); Serial.println(" mW");
   Serial.println("");
   */
-  String umbilical_packet = String(busVoltage)+','+String(shuntVoltage)+','+String(current_mA)+','+String(power_mW);
+  //String umbilical_packet = String(busVoltage)+','+String(shuntVoltage)+','+String(current_mA)+','+String(power_mW);
+  String umbilical_packet = String(busVoltage)+','+String(current_mA);
   Serial.println(umbilical_packet);
   delay(250);
 }

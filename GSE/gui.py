@@ -105,10 +105,11 @@ class SocketMonitor(QThread):
             msg = self.socket.recv_pyobj()
             #print(msg)
             if msg[0] == 'telemetry':
-                print("received telemetry")
+                #print("received telemetry")
                 self.signal.emit(msg[1])
             elif msg[0] == 'response':
-                print("received response")
+                #print("received response WOOO")
+                self.signal.emit(msg[1])
 
 
 if __name__ == '__main__':

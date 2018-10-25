@@ -28,8 +28,8 @@ class TelemetryProcessor:
             print("read telemetry")
             return self.processTelemetry(data[1:]), 'telemetry'
         elif data[0] == 'response':
-            print("read response")
-            return data[1:], 'response'
+            print("\nread response")
+            return self.processCommandResponse(data[1:]), 'response'
         else:
             print("invalid packet, no response type")
 
@@ -53,3 +53,10 @@ class TelemetryProcessor:
                 data_dict[key] = (value, 1)
 
         return data_dict
+
+    def processCommandResponse(self, data):
+        return {
+            "command": data[0],
+            "voltage": data[1],
+            'current': data[3],           
+        }

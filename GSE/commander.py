@@ -69,6 +69,8 @@ class Commander:
                     else:
                         print("please provide a valid pin (0-13)")
                         return
+                elif command == 'getTelemetry':
+                    commandString += 'q'
                 #readPin digital/analog pin#
                 elif command == "readPin":
                     commandString += "q"
@@ -93,14 +95,15 @@ class Commander:
                         print("please provide a valid pin type (digital/analog)")
                 elif command == "testSD":
                     commandString += "d"
-                    if args[1] == "readWrite":
-                        commandString += "r"
-                    elif args[1] == "cardInfo":
-                        commandString += "i"
-                    elif args[1] == "listFiles":
-                        commandString += "f"
-                    else:
-                        print("please provide a valid specifier (readWrite/cardInfo/listFiles")
+                    print("test SD")
+                    # if args[1] == "readWrite":
+                    #     commandString += "r"
+                    # elif args[1] == "cardInfo":
+                    #     commandString += "i"
+                    # elif args[1] == "listFiles":
+                    #     commandString += "f"
+                    # else:
+                    #     print("please provide a valid specifier (readWrite/cardInfo/listFiles")
                 #TODO
                 elif command == "writeToSD":
                     print("How about you try a command we actually like? We don't support this one.")
