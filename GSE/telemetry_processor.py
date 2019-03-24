@@ -39,7 +39,7 @@ class TelemetryProcessor:
             data[11] = float(data[11]) * 2.4/880 - 0.0009
             data[11] = str(data[11])
 
-       
+        print("GOT HERE")
         data_dict = dict()
         #pair up names and data, checking limits 
         for key, value in zip(self.packetMap, data):

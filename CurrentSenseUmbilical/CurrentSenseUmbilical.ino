@@ -33,24 +33,24 @@ void loop(void)
   float shuntVoltage = 0;
   float busVoltage = 0;
   float current_mA = 0;
-  //float loadVoltage = 0;
+  float loadVoltage = 0;
   float power_mW = 0;
 
   shuntVoltage = ina219.getShuntVoltage_mV();
   busVoltage = ina219.getBusVoltage_V();
   current_mA = ina219.getCurrent_mA();
   power_mW = ina219.getPower_mW();
-  //loadVoltage = busvoltage + (shuntvoltage / 1000);
-  /*
-  Serial.print("Bus Voltage:   "); Serial.print(busvoltage); Serial.println(" V");
-  Serial.print("Shunt Voltage: "); Serial.print(shuntvoltage); Serial.println(" mV");
-  Serial.print("Load Voltage:  "); Serial.print(loadvoltage); Serial.println(" V");
-  Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
-  Serial.print("Power:         "); Serial.print(power_mW); Serial.println(" mW");
-  Serial.println("");
-  */
+  loadVoltage = busVoltage + (shuntVoltage / 1000);
+  
+  //Serial.print("Bus Voltage:   "); Serial.print(busVoltage); Serial.println(" V");
+  //Serial.print("Shunt Voltage: "); Serial.print(shuntVoltage); Serial.println(" mV");
+  //Serial.print("Load Voltage:  "); Serial.print(loadVoltage); Serial.println(" V");
+  //Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
+  //Serial.print("Power:         "); Serial.print(power_mW); Serial.println(" mW");
+  //Serial.println("");
+  
   //String umbilical_packet = String(busVoltage)+','+String(shuntVoltage)+','+String(current_mA)+','+String(power_mW);
-  String umbilical_packet = String(busVoltage)+','+String(current_mA);
+  String umbilical_packet = String(current_mA)+','+String(busVoltage);
   Serial.println(umbilical_packet);
   delay(250);
 }

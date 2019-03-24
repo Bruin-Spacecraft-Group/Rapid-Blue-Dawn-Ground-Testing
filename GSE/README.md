@@ -32,3 +32,44 @@ Each command follows the following structure: `command specifier value`. Each fi
 | `readPin [digital/analog] [pinNumber]` | reads digital or analog pin. Digital pins must be between 0-13, and analog between 0-5.                                     | `q[d/a][single hex digit]` |
 | `testSD [option]`                      | make use of SD library's example test functions. Options choose from `readWrite`, `cardInfo`, and `listFiles`.              | `dr`, `di`, or `df`            |
 | `sendNFFPacket`                         | sends one packet from NFF data stream to flight computer.                                                                   | `n[rest of NFF packet]`    |
+
+
+
+## Developer Notes
+===================
+Current flow:
+- User runs gui.py
+    - this is a QMainWindow, so it's the head of everything. (Might want to rename this to like GSE.py or something)
+    - It spawns an instance of SerialManager (QThread) and Server (QThread). These processes run in separate threads from the main gui
+    - Note these children do not get created until after the user inputs the serial ports corresponding to the spacecraft and the umbilical respectively. 
+- SerialManager
+    - with the parent gui having recieved user input for the serial ports, the SerialManager initializes and opens pyserial connections
+    - it then creates zmq sockets to publish data read over serial to the server, and to subscribe to command strings sent by the Commander 
+    - SerialManager coordinates sending commands and reading data from the connected devices
+    - Note it will hold until it recieves data from both devices to best sync information. Therefore data output rates should be identical on the connected devices 
+- Server 
+    - create zmq sockets subscribing to data from serial manager and publishing to the gui (technically just input and output addresses, so other processes could send data to the server via the input address that it wants disseminated over the output address, e.g. we could hook up a database process to the output address, so data that gets displayed to the gui is also saved)
+    - creates instance of TelemetryProcessor to handle incoming data and format it for publishing via the output socket
+    - TelemetryProcessor requires a packetmap to read input csv strings and turn them into data objects
+    - Server will keep a log of data that passes through eventually, currently has support for saving to a text file, though it is disabled
+- Commander
+    - currently this is essentially an independent program that is run from a jupyter console window within the GSE main gui
+    - takes user input in a human readable string, then converts to a few characters designated in and parsable by the flight code 
+    - then it sends those few characters as a command string to the SerialManager over a zmq publish socket, which then sends the command to the appropriate device when possible
+
+
+
+
+
+
+### TODO 
+- update Commander command mappings
+- update TelemetryProcessor data packet map
+- reflect data packet updates in gui
+- Spawn commander automatically - don't require user to type in %run commander.py
+    - integrate commander with main gse file (gui.py currently)
+- handle asynchronus data from umbilical and spacecraft
+- make commander command mapping a dict in config.py, rather than hardcoded
+- make window for displaying server data stream -- cannot just print to console because:
+- bug where all print statements get forwarded to the jupyter window after it launches the commander script
+    - might be fixed by moving commander into the main gui.py parent?

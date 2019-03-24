@@ -12,6 +12,7 @@ from Ui_mainwindow import Ui_mainWindow
 from Ui_monitorWindow import Ui_Monitor
 
 from serial_manager import SerialManager
+from server import Server
 from console import ConsoleWidget
 
 
@@ -29,6 +30,7 @@ class AppWindow(QMainWindow):
     def openMonitor(self):
         print("opening")
         self.connectToSerialDevices()
+        self.runServer()
         #self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
@@ -39,6 +41,9 @@ class AppWindow(QMainWindow):
         self.monitor.console.addWidget(self.console)
         self.openSockets()
         
+    def runServer(self):
+        self.server = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, config.packetMap)
+        self.server.start()
 
     def connectToSerialDevices(self):
         print("connecting to serial devices")
@@ -114,6 +119,7 @@ class SocketMonitor(QThread):
 
 if __name__ == '__main__':
 
+    print("Running gui.py")
     app = QApplication(sys.argv)
     w = AppWindow()
     #w.openSockets()

@@ -67,3 +67,5 @@ PACKETMAP = {
     'landing_warning':1, 
     'fault_warning':1
 }
+
+packetMap = ["spacecraft_time", "flow_rate", "mosfet_state", "timer", "current", "voltage"]
