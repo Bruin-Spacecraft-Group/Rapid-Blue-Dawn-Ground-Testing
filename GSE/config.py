@@ -11,6 +11,8 @@ GUI_SUBSCRIBE = "tcp://localhost:8002"
 GUI_PUBLISH = "tcp://*:8003"
 COMMANDER_SUBSCRIBE = "tcp://localhost:8002"
 COMMANDER_PUBLISH = "tcp://*:8000"
+SERIAL_NFF_SUBSCRIBE = "tcp://localhost:8004"
+NFF_PUBLISH = "tcp://*:8004"
 
 #packet information
 #note this list is not used currently
@@ -29,43 +31,42 @@ DATA_CSV_MAP = [
 #TODO: lower limits? Multiple limit levels?
 #map includes names in correct order, paired with upper limit value
 PACKETMAP = {
-    'spacecraft_time':1e7,
-    'sc_acceleration_x':5, 
-    'sc_acceleration_y':5, 
-    'sc_acceleration_z':5,
-    'sc_ang_vel_x':1000, 
-    'sc_ang_vel_y':1000, 
-    'sc_ang_vel_z':1000,
-    'sc_mag_x':1000,
-    'sc_mag_y':1000,
-    'sc_mag_z':1000, 
-    'mosfet_state':1,  
-    'flow_rate':1000,
-    'timer':1e7,
-    'dt':1e7,
-    'voltage':10000,
-    'current':10000, 
-    'flight_state':-1, 
-    'exp_time':1e7, 
-    'altitude':333000, 
-    'velocity_x':3500, 
-    'velocity_y':3500, 
-    'velocity_z':3500, 
-    'attitude_x':1000, 
-    'attitude_y':1000, 
-    'attitude_z':1000, 
-    'acceleration_x':5, 
-    'acceleration_y':5,
-    'acceleration_z':5, 
-    'ang_vel_x':1000, 
-    'ang_vel_y':1000, 
-    'ang_vel_z':1000,
-    'liftoff_warning':1, 
-    'rcs_warning':1, 
-    'escape_warning':1, 
-    'chute_warning':1,
-    'landing_warning':1, 
-    'fault_warning':1
+    1:['spacecraft_time',0,1e7],
+    2:['sc_acceleration_x',-5, 5], 
+    3:['sc_acceleration_y',-5, 5], 
+    4:['sc_acceleration_z',-5, 5],
+    5:['sc_ang_vel_x',-60, 60], 
+    6:['sc_ang_vel_y',-60, 60], 
+    7:['sc_ang_vel_z',-60, 60],
+    8:['sc_mag_x',-1000,1000],
+    9:['sc_mag_y',-1000,1000],
+    10:['sc_mag_z',-1000,1000], 
+    11:['mosfet_state',0,0.5],  
+    12:['flow_rate',0,1000],
+    13:['pump_current',250,500],
+    14:['pump_voltage',4.9,5.1],
+    15:['dt',0,250],
+    16:['current',45,800], 
+    17:['voltage',4.9,5.1],
+    18:['flight_state',-1,100], 
+    19:['exp_time',0,1e7], 
+    20:['altitude',0,333000], 
+    21:['velocity_x',0,3500], 
+    22:['velocity_y',0,3500], 
+    23:['velocity_z',0,3500], 
+    24:['attitude_x',0,1000], 
+    25:['attitude_y',0,1000], 
+    26:['attitude_z',0,1000], 
+    27:['acceleration_x',-5,5], 
+    28:['acceleration_y',-5,5],
+    29:['acceleration_z',-5,5], 
+    30:['ang_vel_x',-60,60], 
+    31:['ang_vel_y',-60,60], 
+    32:['ang_vel_z',-60,60],
+    33:['liftoff_warning',0,0.5], 
+    34:['rcs_warning',0,0.5], 
+    35:['escape_warning',0,0.5], 
+    36:['chute_warning',0,0.5],
+    37:['landing_warning',0,0.5], 
+    38:['fault_warning',0,0.5]
 }
-
-packetMap = ["spacecraft_time", "flow_rate", "mosfet_state", "timer", "current", "voltage"]

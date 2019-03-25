@@ -7,8 +7,10 @@ from telemetry_processor import TelemetryProcessor
 from PyQt5.Qt import QThread
 
 class Server(QThread):
-    def __init__(self, input_addr, output_addr, packet_map):
+    def __init__(self, parent_ui, input_addr, output_addr, packet_map):
         QThread.__init__(self)
+        self.ui = parent_ui
+        
         context = zmq.Context()
         self.input_socket = context.socket(zmq.SUB)
         self.input_socket.connect(input_addr)
@@ -34,7 +36,7 @@ class Server(QThread):
             try:
                 raw_packet = self.input_socket.recv_string()
                 # print("received string {}".format(raw_packet))
-                
+
                 processed_packet, packet_type = self.processor.processPacket(raw_packet)
 
                 #TODO: update this to a more useful form

@@ -14,21 +14,21 @@ class TelemetryProcessor:
     def processPacket(self, packet):
         #splits csv data packet into list
         data = packet.split(',')
-        print(data)
         #potential TODO: convert values to numbers to process
 
         # if nff telemetry included, take umbilical data from back 
         # and put at the end of sc telemetry (pos 14)
-        if len(data) > 17:
+        if len(data) > 20:
             for i in range(2):
                 tmp = data.pop()
                 data.insert(14, tmp)
         #check response type
         if data[0] == 'telemetry':
-            print("read telemetry")
+            #print("read telemetry")
             return self.processTelemetry(data[1:]), 'telemetry'
         elif data[0] == 'response':
-            print("\nread response")
+            #print("\nread response")
+            print("GOT HERE")
             return self.processCommandResponse(data[1:]), 'response'
         else:
             print("invalid packet, no response type")
@@ -44,18 +44,16 @@ class TelemetryProcessor:
         for key, value in zip(self.packetMap, data):
             value = float(value)
             #TODO: calibration step
-
             #check limits
-            if value < self.packetMap[key]:
-                data_dict[key] = (value, 0)
+            if value < self.packetMap[key][1] or value > self.packetMap[key][2]:
+                data_dict[self.packetMap[key][0]] = (value, 1)
             else:
-                data_dict[key] = (value, 1)
-
+                data_dict[self.packetMap[key][0]] = (value, 0)
         return data_dict
 
     def processCommandResponse(self, data):
         return {
             "command": data[0],
             "voltage": data[1],
-            'current': data[3],           
+            'current': data[2],           
         }

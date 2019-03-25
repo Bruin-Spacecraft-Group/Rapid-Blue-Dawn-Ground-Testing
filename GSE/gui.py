@@ -15,7 +15,7 @@ from Ui_monitorWindow import Ui_Monitor
 from serial_manager import SerialManager
 from server import Server
 from console import ConsoleWidget
-
+from nff_sim import NFFSim
 
 class AppWindow(QMainWindow):
     def __init__(self):
@@ -32,7 +32,6 @@ class AppWindow(QMainWindow):
     def openMonitor(self):
         print("opening monitor")
         self.connectToSerialDevices()
-        self.runServer()
         #self.socketThread = None
         self.monitor_window = QWidget()
         self.monitor_window.setStyleSheet(self.styleFile)
@@ -41,10 +40,12 @@ class AppWindow(QMainWindow):
         self.monitor_window.show()
         self.console = ConsoleWidget()
         self.monitor.console.addWidget(self.console)
+        self.runServer()
         self.openSockets()
+        self.initNFFSim()
         
     def runServer(self):
-        self.server = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, config.packetMap)
+        self.server = Server(self.monitor, config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, config.PACKETMAP)
         self.server.start()
 
     def listSerialDevices(self):
@@ -56,7 +57,7 @@ class AppWindow(QMainWindow):
     def connectToSerialDevices(self):
         sc_port = self.ui.sc_port.itemText(self.ui.sc_port.currentIndex())
         ub_port = self.ui.ub_port.itemText(self.ui.ub_port.currentIndex())
-        self.serialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+        self.serialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE, config.SERIAL_NFF_SUBSCRIBE)
         self.serialManager.start()
         #subprocess.Popen("python serial_manager.py {} {}".format(sc_port, ub_port), shell=True)
         
@@ -86,6 +87,10 @@ class AppWindow(QMainWindow):
         self.socketThread = SocketMonitor(self.telemSocket)
         self.socketThread.signal.connect(self.gotSig)
         self.socketThread.start()
+
+    def initNFFSim(self):
+        self.nffSim = NFFSim(self.monitor, config.NFF_PUBLISH)
+        self.monitor.run_sim.clicked.connect(self.nffSim.start)
 
     def gotSig(self, msg):
         #print("\nReceived New Packet...")

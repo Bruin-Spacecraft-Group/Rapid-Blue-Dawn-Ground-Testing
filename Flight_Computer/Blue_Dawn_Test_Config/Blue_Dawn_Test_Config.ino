@@ -205,40 +205,41 @@ String get_telemetry() {
   mosfet_on = digitalRead(MOSFET);
   telemetry += "," + String(mosfet_on);
   //telemetry += "," + String(mosfet_on ? "1" : "0");
-  return telemetry;
-  
+    
   // Flowmeter
-  /*
-  double sum=0;
-  int count=0;
-  if (FreqMeasure.available()) {
-    // average several reading together
-    sum = sum + FreqMeasure.read();
-    count = count + 1;
-    if (count > 5) {
-      telemetry += "," + String(FreqMeasure.countToFrequency(sum / count));
-      sum = 0;
-      count = 0;
-    }
-  }
-  else {
-    telemetry += ",0";
-  }
-  */
+//  double sum=0;
+//  int count=0;
+//  if (FreqMeasure.available()) {
+//    // average several reading together
+//    sum = sum + FreqMeasure.read();
+//    count = count + 1;
+//    if (count > 5) {
+//      telemetry += "," + String(FreqMeasure.countToFrequency(sum / count));
+//      sum = 0;
+//      count = 0;
+//    }
+//  }
+//  else {
+//    telemetry += ",0";
+//  }
+  
   //TODO: test if this blocks or not
-  FreqCounter::f_comp= 8;             // Set compensation to 12
-  FreqCounter::start(1000);           // Start counting with gatetime of 100ms
-  while (FreqCounter::f_ready == 0)   // wait until counter ready
+//  FreqCounter::f_comp= 8;             // Set compensation to 12
+//  FreqCounter::start(1000);           // Start counting with gatetime of 100ms
+//  while (FreqCounter::f_ready == 0)   // wait until counter ready
    
-  frequency = FreqCounter::f_freq;            // read result
+  // frequency = FreqCounter::f_freq;            // read result
+  frequency = 0;
   telemetry += "," + String(frequency);
 
+  telemetry += ",300,5"; // pump current/voltage
+  return telemetry;
   // timer
-  long int time_remaining = timer - millis();
-  telemetry += "," + String(time_remaining);
-  if (time_remaining <= 0) {
-    digitalWrite(MOSFET, HIGH);
-  }
+//  long int time_remaining = timer - millis();
+//  telemetry += "," + String(time_remaining);
+//  if (time_remaining <= 0) {
+//    digitalWrite(MOSFET, HIGH);
+//  }
   
   
 }

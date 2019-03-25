@@ -10,7 +10,7 @@ from PyQt5.Qt import QThread
 
 class SerialManager(QThread):
     # initialize manager with ports to manage
-    def __init__(self, sc_port, ub_port, server_addr, command_addr):
+    def __init__(self, sc_port, ub_port, server_addr, command_addr, nff_addr):
         QThread.__init__(self)
         # Try connecting to the ports first, and see if we can actually connect to the ports
         print("connecting to serial devices")
@@ -45,6 +45,9 @@ class SerialManager(QThread):
             self.command_socket = context.socket(zmq.SUB)
             self.command_socket.connect(command_addr)
             self.command_socket.setsockopt_string(zmq.SUBSCRIBE, "")
+            self.nff_socket = context.socket(zmq.SUB)
+            self.nff_socket.connect(nff_addr)
+            self.nff_socket.setsockopt_string(zmq.SUBSCRIBE, "")
         except:
             print("ERROR: Cannot connect to sockets!")
             sys.exit()
@@ -60,8 +63,7 @@ class SerialManager(QThread):
             #print(packet)
 
             #remove carrige return and endline
-            packet = packet.replace("\r", "")
-            packet = packet.replace("\n", "") 
+            packet = packet.rstrip()
             
             return packet
         else:
@@ -88,18 +90,27 @@ class SerialManager(QThread):
             while ub_data=='': 
                 ub_data = self.readLine(self.ub)
             packet = str(sc_data) + "," + str(ub_data)
-            #print(packet)
+
             self.server_socket.send_string(packet)
 
     def run(self):
         self.Active = True
         while True:
+            # check for commands/packets to send
             try:
                 command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
-                print("Sending command {}".format(command))
+                #print("Sending command {}".format(command))
                 self.writeToPort(self.sc, command)
             except ZMQError:
                 pass
+            try:
+                nff_packet = self.nff_socket.recv_string(flags=zmq.NOBLOCK, encoding='ascii')
+                #print("Sending nff packet {}".format(nff_packet))
+                self.writeToPort(self.sc, nff_packet)
+            except ZMQError:
+                pass
+
+            # read data
             sc_data=''
             ub_data=''
             while sc_data=='':
@@ -107,7 +118,6 @@ class SerialManager(QThread):
             while ub_data=='': 
                 ub_data = self.readLine(self.ub)
             packet = str(sc_data) + "," + str(ub_data)
-            #print(packet)
             self.server_socket.send_string(packet)
     
     def stop(self):

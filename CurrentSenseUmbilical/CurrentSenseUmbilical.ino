@@ -14,7 +14,7 @@ void setup(void)
 
   uint32_t currentFrequency;
     
-  Serial.println("Umbilical Initialization!");
+  //Serial.println("Umbilical Initialization!");
   
   // Initialize the INA219.
   // By default the initialization will use the largest range (32V, 2A).  However
@@ -25,7 +25,7 @@ void setup(void)
   // Or to use a lower 16V, 400mA range (higher precision on volts and amps):
   //ina219.setCalibration_16V_400mA();
 
-  Serial.println("Measuring voltage and current with INA219 ...");
+  //Serial.println("Measuring voltage and current with INA219 ...");
 }
 
 void loop(void) 
