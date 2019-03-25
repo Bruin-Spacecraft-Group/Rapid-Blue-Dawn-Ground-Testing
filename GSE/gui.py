@@ -2,6 +2,7 @@ import sys
 import zmq
 import subprocess
 import os
+import serial.tools.list_ports
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -25,10 +26,11 @@ class AppWindow(QMainWindow):
         self.ui.setupUi(self)
         self.socketThread = None
         #self.show()
+        self.listSerialDevices()
         self.ui.buttonConnect.clicked.connect(self.openMonitor)
 
     def openMonitor(self):
-        print("opening")
+        print("opening monitor")
         self.connectToSerialDevices()
         self.runServer()
         #self.socketThread = None
@@ -45,20 +47,25 @@ class AppWindow(QMainWindow):
         self.server = Server(config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, config.packetMap)
         self.server.start()
 
+    def listSerialDevices(self):
+        comlist = serial.tools.list_ports.comports()
+        for x in comlist:
+            self.ui.sc_port.addItem(x.device)
+            self.ui.ub_port.addItem(x.device)
+
     def connectToSerialDevices(self):
-        print("connecting to serial devices")
-        bd_port = self.ui.bd_port.text()
-        ub_port = self.ui.ub_port.text()
-        self.serialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+        sc_port = self.ui.sc_port.itemText(self.ui.sc_port.currentIndex())
+        ub_port = self.ui.ub_port.itemText(self.ui.ub_port.currentIndex())
+        self.serialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
         self.serialManager.start()
-        #subprocess.Popen("python serial_manager.py {} {}".format(bd_port, ub_port), shell=True)
+        #subprocess.Popen("python serial_manager.py {} {}".format(sc_port, ub_port), shell=True)
         
-        #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), bd_port, ub_port), shell=True)
-        #self.mySerialManager = SerialManager(bd_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
+        #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), sc_port, ub_port), shell=True)
+        #self.mySerialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
         #self.mySerialManager.manage()
     
     def openSockets(self):
-        print("opening sockets")
+        print("opening gui sockets")
         try:
             context = zmq.Context()
             self.telemSocket = context.socket(zmq.SUB)
@@ -67,7 +74,7 @@ class AppWindow(QMainWindow):
             
             self.commandSocket = context.socket(zmq.PUB)
             self.commandSocket.bind(config.GUI_PUBLISH)
-            print("sockets open")
+            # print("sockets open")
         except (zmq.ZMQError, zmq.ZMQBindError) as err:
             print("Error: {}".format(err))
             return
@@ -87,8 +94,8 @@ class AppWindow(QMainWindow):
             #print(msg[key][0])
             if self.monitor.nff_groupbox.findChild(QLabel, key):
                 item = self.monitor.nff_groupbox.findChild(QLabel, key)
-            elif self.monitor.bd_groupbox.findChild(QLabel, key):
-                item = self.monitor.bd_groupbox.findChild(QLabel, key)
+            elif self.monitor.sc_groupbox.findChild(QLabel, key):
+                item = self.monitor.sc_groupbox.findChild(QLabel, key)
             else:
                 continue
             item.setText(str(msg[key][0]))
@@ -105,7 +112,7 @@ class SocketMonitor(QThread):
         self.socket = socket
 
     def run(self):
-        print("running")
+        print("Gui Socket Monitor Running")
         while True:
             msg = self.socket.recv_pyobj()
             #print(msg)

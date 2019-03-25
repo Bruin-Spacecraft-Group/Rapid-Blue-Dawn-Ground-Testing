@@ -33,7 +33,7 @@ class Server(QThread):
             #read in raw packet from serial manager
             try:
                 raw_packet = self.input_socket.recv_string()
-                print("received string {}".format(raw_packet))
+                # print("received string {}".format(raw_packet))
                 
                 processed_packet, packet_type = self.processor.processPacket(raw_packet)
 
@@ -47,7 +47,7 @@ class Server(QThread):
 
                 #publish processed packet data object to GUI
                 self.output_socket.send_pyobj([packet_type, processed_packet])
-                print("sent obj\n")
+                # print("sent obj\n")
             except Exception as e:
                 print("error processing input, exception raised: {}".format(e))
     

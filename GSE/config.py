@@ -20,8 +20,8 @@ DATA_CSV_MAP = [
     'acceleration_x', 'acceleration_y', 'acceleration_z', 'ang_vel_x', 'ang_vel_y',\
     'ang_vel_z', 'liftoff warning', 'rcs warning', 'escape warning', 'chute warning', \
     'landing warning', 'fault warning', 'frequency measure', 'magnetometer', \
-    'current', 'voltage', 'timer', 'bd_acceleration_x', 'bd_acceleration_y', \
-    'bd_acceleration_z', 'bd_ang_vel_x', 'bd_ang_vel_y', 'bd_ang_vel_z', 'mosfet', \
+    'current', 'voltage', 'timer', 'sc_acceleration_x', 'sc_acceleration_y', \
+    'sc_acceleration_z', 'sc_ang_vel_x', 'sc_ang_vel_y', 'sc_ang_vel_z', 'mosfet', \
     'time_end'
 ]
 
@@ -30,15 +30,15 @@ DATA_CSV_MAP = [
 #map includes names in correct order, paired with upper limit value
 PACKETMAP = {
     'spacecraft_time':1e7,
-    'bd_acceleration_x':5, 
-    'bd_acceleration_y':5, 
-    'bd_acceleration_z':5,
-    'bd_ang_vel_x':1000, 
-    'bd_ang_vel_y':1000, 
-    'bd_ang_vel_z':1000,
-    'bd_mag_x':1000,
-    'bd_mag_y':1000,
-    'bd_mag_z':1000, 
+    'sc_acceleration_x':5, 
+    'sc_acceleration_y':5, 
+    'sc_acceleration_z':5,
+    'sc_ang_vel_x':1000, 
+    'sc_ang_vel_y':1000, 
+    'sc_ang_vel_z':1000,
+    'sc_mag_x':1000,
+    'sc_mag_y':1000,
+    'sc_mag_z':1000, 
     'mosfet_state':1,  
     'flow_rate':1000,
     'timer':1e7,

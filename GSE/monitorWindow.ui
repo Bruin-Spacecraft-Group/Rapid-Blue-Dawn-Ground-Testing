@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
      <item>
-      <widget class="QGroupBox" name="bd_groupbox">
+      <widget class="QGroupBox" name="sc_groupbox">
        <property name="title">
         <string>Blue Dawn</string>
        </property>
@@ -88,21 +88,21 @@
         <item row="6" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="bd_acceleration_x">
+           <widget class="QLabel" name="sc_acceleration_x">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_acceleration_y">
+           <widget class="QLabel" name="sc_acceleration_y">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_acceleration_z">
+           <widget class="QLabel" name="sc_acceleration_z">
             <property name="text">
              <string>Value</string>
             </property>
@@ -162,21 +162,21 @@
         <item row="7" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="bd_mag_x">
+           <widget class="QLabel" name="sc_mag_x">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_mag_y">
+           <widget class="QLabel" name="sc_mag_y">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_mag_z">
+           <widget class="QLabel" name="sc_mag_z">
             <property name="text">
              <string>Value</string>
             </property>
@@ -187,21 +187,21 @@
         <item row="8" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QLabel" name="bd_ang_vel_x">
+           <widget class="QLabel" name="sc_ang_vel_x">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_ang_vel_y">
+           <widget class="QLabel" name="sc_ang_vel_y">
             <property name="text">
              <string>Value</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="bd_ang_vel_z">
+           <widget class="QLabel" name="sc_ang_vel_z">
             <property name="text">
              <string>Value</string>
             </property>

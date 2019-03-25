@@ -35,8 +35,8 @@ Each command follows the following structure: `command specifier value`. Each fi
 
 
 
-## Developer Notes
-===================
+Developer Notes
+===============
 Current flow:
 - User runs gui.py
     - this is a QMainWindow, so it's the head of everything. (Might want to rename this to like GSE.py or something)

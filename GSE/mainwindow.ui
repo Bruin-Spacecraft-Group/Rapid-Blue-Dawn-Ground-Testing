@@ -60,12 +60,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="bd_port">
-           <property name="inputMask">
-            <string/>
-           </property>
-           <property name="text">
-            <string/>
+          <widget class="QComboBox" name="sc_port">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
           </widget>
          </item>
@@ -81,7 +81,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="ub_port"/>
+          <widget class="QComboBox" name="ub_port"/>
          </item>
         </layout>
        </item>

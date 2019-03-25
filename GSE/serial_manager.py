@@ -10,18 +10,19 @@ from PyQt5.Qt import QThread
 
 class SerialManager(QThread):
     # initialize manager with ports to manage
-    def __init__(self, bd_port, ub_port, server_addr, command_addr):
+    def __init__(self, sc_port, ub_port, server_addr, command_addr):
         QThread.__init__(self)
         # Try connecting to the ports first, and see if we can actually connect to the ports
+        print("connecting to serial devices")
         try:
-            self.bd = serial.Serial(
-                port=bd_port,
+            self.sc = serial.Serial(
+                port=sc_port,
                 baudrate=config.BAUDRATE,
                 timeout=config.TIMEOUT,
                 write_timeout=config.TIMEOUT
             )
         except:
-            print("ERROR: Cannot connect to Blue Dawn port at {}!".format(bd_port))
+            print("ERROR: Cannot connect to Blue Dawn port at {}!".format(sc_port))
             sys.exit()
 
         try:
@@ -35,6 +36,7 @@ class SerialManager(QThread):
             print("ERROR: Cannot connect to Umbilical port at {}!".format(ub_port))
             sys.exit()
 
+        print("opening serial manager zmq sockets")
         try:
             context = zmq.Context()
             self.server_socket = context.socket(zmq.PUB)
@@ -56,7 +58,10 @@ class SerialManager(QThread):
             packet = ser.readline()
             packet = packet.decode("utf-8")
             #print(packet)
-            #packet = packet[2:len(packet)-5]
+
+            #remove carrige return and endline
+            packet = packet.replace("\r", "")
+            packet = packet.replace("\n", "") 
             
             return packet
         else:
@@ -73,16 +78,16 @@ class SerialManager(QThread):
             try:
                 command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
                 print("Sending command {}".format(command))
-                self.writeToPort(self.bd, command)
+                self.writeToPort(self.sc, command)
             except ZMQError:
                 pass
-            bd_data=''
+            sc_data=''
             ub_data=''
-            while bd_data=='':
-                bd_data = self.readLine(self.bd) 
+            while sc_data=='':
+                sc_data = self.readLine(self.sc) 
             while ub_data=='': 
                 ub_data = self.readLine(self.ub)
-            packet = str(bd_data) + "," + str(ub_data)
+            packet = str(sc_data) + "," + str(ub_data)
             #print(packet)
             self.server_socket.send_string(packet)
 
@@ -92,16 +97,16 @@ class SerialManager(QThread):
             try:
                 command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
                 print("Sending command {}".format(command))
-                self.writeToPort(self.bd, command)
+                self.writeToPort(self.sc, command)
             except ZMQError:
                 pass
-            bd_data=''
+            sc_data=''
             ub_data=''
-            while bd_data=='':
-                bd_data = self.readLine(self.bd) 
+            while sc_data=='':
+                sc_data = self.readLine(self.sc) 
             while ub_data=='': 
                 ub_data = self.readLine(self.ub)
-            packet = str(bd_data) + "," + str(ub_data)
+            packet = str(sc_data) + "," + str(ub_data)
             #print(packet)
             self.server_socket.send_string(packet)
     
@@ -113,7 +118,7 @@ class SerialManager(QThread):
 
 def main(args):
     """
-    bd_port = input("Please enter Blue Dawn Port:")
+    sc_port = input("Please enter Blue Dawn Port:")
     ub_port = input("Please enter Umbilical Port:")
     """
     """
@@ -121,14 +126,14 @@ def main(args):
     command_addr = input("Please enter Commander Address:")
     """
 
-    mySerialManager = SerialManager(args.bd_port, args.ub_port, \
+    mySerialManager = SerialManager(args.sc_port, args.ub_port, \
         config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
     mySerialManager.manage()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Send commands to flight computer')
-    parser.add_argument('bd_port', help='a string specifying the command')
+    parser.add_argument('sc_port', help='a string specifying the command')
     parser.add_argument('ub_port', help='for commands which take additional arguments, e.g. timer')
 
     args = parser.parse_args()
