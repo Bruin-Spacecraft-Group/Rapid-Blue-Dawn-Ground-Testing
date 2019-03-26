@@ -37,16 +37,13 @@ class AppWindow(QMainWindow):
         self.monitor_window.setStyleSheet(self.styleFile)
         self.monitor = Ui_Monitor()
         self.monitor.setupUi(self.monitor_window)
+        self.close()
         self.monitor_window.show()
         self.console = ConsoleWidget()
         self.monitor.console.addWidget(self.console)
         self.runServer()
         self.openSockets()
         self.initNFFSim()
-        
-    def runServer(self):
-        self.server = Server(self.monitor, config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH, config.PACKETMAP)
-        self.server.start()
 
     def listSerialDevices(self):
         comlist = serial.tools.list_ports.comports()
@@ -59,12 +56,11 @@ class AppWindow(QMainWindow):
         ub_port = self.ui.ub_port.itemText(self.ui.ub_port.currentIndex())
         self.serialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE, config.SERIAL_NFF_SUBSCRIBE)
         self.serialManager.start()
-        #subprocess.Popen("python serial_manager.py {} {}".format(sc_port, ub_port), shell=True)
-        
-        #subprocess.Popen("{}/serial_manager.py {} {}".format(os.getcwd(), sc_port, ub_port), shell=True)
-        #self.mySerialManager = SerialManager(sc_port, ub_port, config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
-        #self.mySerialManager.manage()
     
+    def runServer(self):
+        self.server = Server(self.monitor, config.SERVER_SUBSCRIBE, config.SERVER_PUBLISH)
+        self.server.start()
+
     def openSockets(self):
         print("opening gui sockets")
         try:
@@ -91,6 +87,8 @@ class AppWindow(QMainWindow):
     def initNFFSim(self):
         self.nffSim = NFFSim(self.monitor, config.NFF_PUBLISH)
         self.monitor.run_sim.clicked.connect(self.nffSim.start)
+        self.monitor.pause_sim.clicked.connect(self.nffSim.pause)
+        self.monitor.abort_sim.clicked.connect(self.nffSim.stop)
 
     def gotSig(self, msg):
         #print("\nReceived New Packet...")
@@ -134,9 +132,6 @@ if __name__ == '__main__':
     print("Running gui.py")
     app = QApplication(sys.argv)
     w = AppWindow()
-    #w.openSockets()
-
     w.show()
-    #w.connectToSerialDevices()
 
     sys.exit(app.exec_())

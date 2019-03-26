@@ -13,7 +13,7 @@ class Ui_Monitor(object):
         Monitor.setObjectName("Monitor")
         Monitor.resize(1049, 731)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../../.designer/backup/images/MainLogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../../../../../.designer/backup/images/MainLogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Monitor.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(Monitor)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -294,6 +294,12 @@ class Ui_Monitor(object):
         self.run_sim = QtWidgets.QPushButton(self.nff_sim)
         self.run_sim.setObjectName("run_sim")
         self.verticalLayout_6.addWidget(self.run_sim)
+        self.pause_sim = QtWidgets.QPushButton(self.nff_sim)
+        self.pause_sim.setObjectName("pause_sim")
+        self.verticalLayout_6.addWidget(self.pause_sim)
+        self.abort_sim = QtWidgets.QPushButton(self.nff_sim)
+        self.abort_sim.setObjectName("abort_sim")
+        self.verticalLayout_6.addWidget(self.abort_sim)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_6.addItem(spacerItem)
         self.horizontalLayout_9.addLayout(self.verticalLayout_6)
@@ -302,7 +308,7 @@ class Ui_Monitor(object):
         self.verticalLayout.addWidget(self.tabWidget)
 
         self.retranslateUi(Monitor)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(Monitor)
 
     def retranslateUi(self, Monitor):
@@ -376,5 +382,7 @@ class Ui_Monitor(object):
         self.label_7.setText(_translate("Monitor", "NFF Packets"))
         self.label_5.setText(_translate("Monitor", "Speed"))
         self.run_sim.setText(_translate("Monitor", "Run Sim"))
+        self.pause_sim.setText(_translate("Monitor", "Pause"))
+        self.abort_sim.setText(_translate("Monitor", "Abort"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.nff_sim), _translate("Monitor", "NFF Simulator"))
 

@@ -4,8 +4,11 @@ class TelemetryProcessor:
     """
     Sets calibration information and csv map (of the order of values in input list)
     """
-    def __init__(self, packetMap):
-        self.packetMap = config.PACKETMAP
+    def __init__(self):
+        self.umbilicalMap = config.UmbilicalMap
+        self.scMap = config.ScMap
+        self.nffMap = config.NffMap
+
 
     """
     Takes in a string of data in specific known order,
@@ -14,46 +17,93 @@ class TelemetryProcessor:
     def processPacket(self, packet):
         #splits csv data packet into list
         data = packet.split(',')
-        #potential TODO: convert values to numbers to process
-
-        # if nff telemetry included, take umbilical data from back 
-        # and put at the end of sc telemetry (pos 14)
-        if len(data) > 20:
-            for i in range(2):
-                tmp = data.pop()
-                data.insert(14, tmp)
-        #check response type
-        if data[0] == 'telemetry':
-            #print("read telemetry")
-            return self.processTelemetry(data[1:]), 'telemetry'
-        elif data[0] == 'response':
-            #print("\nread response")
-            print("GOT HERE")
-            return self.processCommandResponse(data[1:]), 'response'
+        
+        ## filter between spacecraft and umbilical data packets
+        if len(data) == 2:
+            return self.processTelemetry('ub', data), 'telemetry'
         else:
-            print("invalid packet, no response type")
-
-    def processTelemetry(self, data):
-        #convert flowmeter freq to flow rate
-        if data[11] != "0":
-            data[11] = float(data[11]) * 2.4/880 - 0.0009
-            data[11] = str(data[11])
-
-        data_dict = dict()
-        #pair up names and data, checking limits 
-        for key, value in zip(self.packetMap, data):
-            value = float(value)
-            #TODO: calibration step
-            #check limits
-            if value < self.packetMap[key][1] or value > self.packetMap[key][2]:
-                data_dict[self.packetMap[key][0]] = (value, 1)
+            #check response type
+            if data[0] == 'telemetry':
+                if len(data) < 20:
+                    return self.processTelemetry('sc', data[1:]), 'telemetry'
+                else:
+                    return self.processTelemetry('sc_nff', data[1:]), 'telemetry'
+            elif data[0] == 'response':
+                return self.processCommandResponse(data[1:]), 'response'
             else:
-                data_dict[self.packetMap[key][0]] = (value, 0)
+                print("invalid packet from spacecraft: no response type")
+            
+            
+        
+
+    def processTelemetry(self, telemType, data):
+        data_dict = dict()
+        if telemType == 'ub':
+            for key, value in zip(self.umbilicalMap, data):
+                if float(value) < self.umbilicalMap[key][0] or float(value) > self.umbilicalMap[key][1]:
+                    # out of bounds
+                    data_dict[key] = (value, 1)
+                else:
+                    # safe
+                    data_dict[key] = (value, 0)  
+        elif telemType == 'sc':
+            for key, value in zip(self.scMap, data):
+                #convert flowmeter freq to flow rate
+                if key == 'flow_rate' and value != "0":
+                    value = str(float(value) * 2.4/880 - 0.0009)
+                
+                if float(value) < self.scMap[key][0] or float(value) > self.scMap[key][1]:
+                    # out of bounds
+                    data_dict[key] = (value, 1)
+                else:
+                    # safe
+                    data_dict[key] = (value, 0) 
+        elif telemType == 'sc_nff':
+            # first part is usual sc telementry
+            for key, value in zip(self.scMap, data[:len(self.scMap)]):
+                #convert flowmeter freq to flow rate
+                if key == 'flow_rate' and value != "0":
+                    value = str(float(value) * 2.4/880 - 0.0009)
+                
+                if float(value) < self.scMap[key][0] or float(value) > self.scMap[key][1]:
+                    # out of bounds
+                    data_dict[key] = (value, 1)
+                else:
+                    # safe
+                    data_dict[key] = (value, 0)
+            
+            for key, value in zip(self.nffMap, data[len(self.scMap):]):
+                if key == 'flight_state':
+                    data_dict[key] = (value, 0)
+                    continue
+                    
+                if float(value) < self.nffMap[key][0] or float(value) > self.nffMap[key][1]:
+                    # out of bounds
+                    data_dict[key] = (value, 1)
+                else:
+                    # safe
+                    data_dict[key] = (value, 0)    
         return data_dict
+        
+        #pair up names and data, checking limits 
+        # for key, value in zip(self.packetMap, data):
+        #     if key == 18:
+        #         data_dict[self.packetMap[key][0]] = (value, 0) 
+        #         continue
+        #     value = float(value)
+        #     #TODO: calibration step
+        #     #check limits
+        #     if value < self.packetMap[key][1] or value > self.packetMap[key][2]:
+        #         # out of bounds
+        #         data_dict[self.packetMap[key][0]] = (value, 1)
+        #     else:
+        #         # safe
+        #         data_dict[self.packetMap[key][0]] = (value, 0)
+        # return data_dict
 
     def processCommandResponse(self, data):
         return {
-            "command": data[0],
-            "voltage": data[1],
-            'current': data[2],           
+            "command": data[0]
+            # "voltage": data[1],
+            # 'current': data[2],           
         }

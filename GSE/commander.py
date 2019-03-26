@@ -15,6 +15,33 @@ class Commander:
     def command(self):
         while True:
             inputString = input("Please submit a command: ")
+            # try:
+            #     args = inputString.split(" ")
+            #     command = args[0]
+
+            #     if command == "accel":
+            #         commandString = "a"
+            #     elif command == "gyro":
+            #         commandString = "g"
+            #     elif command == "mag":
+            #         commandString = "m"
+            #     elif command == "imu":
+            #         commandString = "a\ng\nm"
+            #     elif command == "switch":
+            #         commandString = "p"
+            #     elif command == "data":
+            #         commandString = "d"
+            #     elif command == "time":
+            #         commandString = "t"
+            #     elif command == "nff":
+            #         commandString = "s"
+            #     # payload current/voltage sense
+            #     elif command == "sense":
+            #         commandString = "c"
+            #     elif command == "flow":
+            #         commandString = "f"
+            #     elif command == "write":
+            #         commandString = "w"
             try:
                 args = inputString.split(" ")
                 command = args[0]

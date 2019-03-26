@@ -104,7 +104,7 @@ void loop()
   // Read from serial up to the maximum serial packet size.
   res = Serial.readBytes(buffer, MAXBUFSIZE);
   // If no bytes are read, pass and continue collecting telemetry
-  
+  nff_str = "";
   if (res != 0)
   {
     if (buffer[0] == 'c'){
@@ -153,9 +153,10 @@ void loop()
     }
     
     //NFF Data
-    else if (buffer[0] == 'n'){
+    //else if (buffer[0] == 'n'){
+    else {
       res = parse_serial_packet(buffer, &flight_info);
-      nff_str += nr_str(&flight_info);
+      nff_str = nr_str(&flight_info);
     }
     
     // Null terminate the buffer (Possibly unnecessary).
@@ -169,13 +170,13 @@ void loop()
   double dt = millis() - start_time;
   data_str += "," + String(dt);
 
-  if (nff_str != ""){
-    data_str += nff_str;
-  }
+//  if (nff_str != ""){
+//    data_str += "," + nff_str;
+//  }
   
   //Serial.println("printing data str");
   //send data packet to GSE
-  Serial.println(data_str); 
+  Serial.print(data_str);Serial.println(nff_str);
   delay(1000);
 }
 

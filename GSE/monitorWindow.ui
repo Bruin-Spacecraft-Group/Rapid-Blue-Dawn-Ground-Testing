@@ -15,13 +15,13 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../.designer/backup/images/MainLogo.png</normaloff>../../../../../.designer/backup/images/MainLogo.png</iconset>
+    <normaloff>../../../../../../../.designer/backup/images/MainLogo.png</normaloff>../../../../../../../.designer/backup/images/MainLogo.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="dashboard">
       <attribute name="title">
@@ -582,6 +582,20 @@
             <widget class="QPushButton" name="run_sim">
              <property name="text">
               <string>Run Sim</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pause_sim">
+             <property name="text">
+              <string>Pause</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="abort_sim">
+             <property name="text">
+              <string>Abort</string>
              </property>
             </widget>
            </item>

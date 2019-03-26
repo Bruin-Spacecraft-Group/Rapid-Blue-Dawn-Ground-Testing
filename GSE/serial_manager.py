@@ -60,7 +60,6 @@ class SerialManager(QThread):
         if ser.isOpen():
             packet = ser.readline()
             packet = packet.decode("utf-8")
-            #print(packet)
 
             #remove carrige return and endline
             packet = packet.rstrip()
@@ -75,26 +74,9 @@ class SerialManager(QThread):
     def writeToPort(self, ser, data):
         ser.write(data.encode("utf-8"))
 
-    def manage(self):
-        while True:
-            try:
-                command = self.command_socket.recv_string(flags=zmq.NOBLOCK)
-                print("Sending command {}".format(command))
-                self.writeToPort(self.sc, command)
-            except ZMQError:
-                pass
-            sc_data=''
-            ub_data=''
-            while sc_data=='':
-                sc_data = self.readLine(self.sc) 
-            while ub_data=='': 
-                ub_data = self.readLine(self.ub)
-            packet = str(sc_data) + "," + str(ub_data)
-
-            self.server_socket.send_string(packet)
-
     def run(self):
         self.Active = True
+            
         while True:
             # check for commands/packets to send
             try:
@@ -111,41 +93,21 @@ class SerialManager(QThread):
                 pass
 
             # read data
-            sc_data=''
-            ub_data=''
-            while sc_data=='':
-                sc_data = self.readLine(self.sc) 
-            while ub_data=='': 
+            try:
+                sc_data = self.readLine(self.sc)
+                if sc_data != '':
+                    self.server_socket.send_string(sc_data)
+            except Exception as e:
+                print(e)
+            try:
                 ub_data = self.readLine(self.ub)
-            packet = str(sc_data) + "," + str(ub_data)
-            self.server_socket.send_string(packet)
+                if ub_data != '':
+                    self.server_socket.send_string(ub_data)
+            except Exception as e:
+                print(e)
+            
     
     def stop(self):
         self.Active = False
         print("stopping serial manager")
         self.quit()
-
-
-def main(args):
-    """
-    sc_port = input("Please enter Blue Dawn Port:")
-    ub_port = input("Please enter Umbilical Port:")
-    """
-    """
-    server_addr = input("Please enter Server Address:")
-    command_addr = input("Please enter Commander Address:")
-    """
-
-    mySerialManager = SerialManager(args.sc_port, args.ub_port, \
-        config.SERIAL_PUBLISH, config.SERIAL_SUBSCRIBE)
-    mySerialManager.manage()
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Send commands to flight computer')
-    parser.add_argument('sc_port', help='a string specifying the command')
-    parser.add_argument('ub_port', help='for commands which take additional arguments, e.g. timer')
-
-    args = parser.parse_args()
-    print(args)
-    main(args)
