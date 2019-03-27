@@ -68,7 +68,6 @@ Current flow:
 - reflect data packet updates in gui
 - Spawn commander automatically - don't require user to type in %run commander.py
     - integrate commander with main gse file (gui.py currently)
-- handle asynchronus data from umbilical and spacecraft
 - make commander command mapping a dict in config.py, rather than hardcoded
 - make window for displaying server data stream -- cannot just print to console because:
 - bug where all print statements get forwarded to the jupyter window after it launches the commander script

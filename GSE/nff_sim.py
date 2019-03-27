@@ -92,6 +92,7 @@ class NFFSim(QThread):
     # Strip any new line or white space off the end of the line.
     packet = line.rstrip()
     if (self.packet_counter % 10 == 0):
+      #print(packet)
       self.console.addItem(QListWidgetItem(packet))
 
 
@@ -190,7 +191,7 @@ class NFFSim(QThread):
 
 
     # display how far along simulation is
-    self.ui.nff_sim_progress_bar.setValue(self.packet_counter / self.num_lines)
+    self.ui.nff_sim_progress_bar.setValue(100 * self.packet_counter / self.num_lines)
 
     # Send the packet to each connected device.
     self.publish_socket.send_string(packet)

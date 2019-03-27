@@ -97,6 +97,7 @@ class SerialManager(QThread):
                 sc_data = self.readLine(self.sc)
                 if sc_data != '':
                     self.server_socket.send_string(sc_data)
+                    # print(sc_data)
             except Exception as e:
                 print(e)
             try:

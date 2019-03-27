@@ -19,7 +19,7 @@ class TelemetryProcessor:
         data = packet.split(',')
         
         ## filter between spacecraft and umbilical data packets
-        if len(data) == 2:
+        if len(data) == 2 and data[0] != "response":
             return self.processTelemetry('ub', data), 'telemetry'
         else:
             #check response type
@@ -29,6 +29,7 @@ class TelemetryProcessor:
                 else:
                     return self.processTelemetry('sc_nff', data[1:]), 'telemetry'
             elif data[0] == 'response':
+                print(data[1:])
                 return self.processCommandResponse(data[1:]), 'response'
             else:
                 print("invalid packet from spacecraft: no response type")
@@ -76,13 +77,13 @@ class TelemetryProcessor:
                 if key == 'flight_state':
                     data_dict[key] = (value, 0)
                     continue
-                    
+
                 if float(value) < self.nffMap[key][0] or float(value) > self.nffMap[key][1]:
                     # out of bounds
                     data_dict[key] = (value, 1)
                 else:
                     # safe
-                    data_dict[key] = (value, 0)    
+                    data_dict[key] = (value, 0)   
         return data_dict
         
         #pair up names and data, checking limits 

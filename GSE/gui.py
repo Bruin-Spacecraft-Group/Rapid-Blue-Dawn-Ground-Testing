@@ -92,13 +92,16 @@ class AppWindow(QMainWindow):
 
     def gotSig(self, msg):
         #print("\nReceived New Packet...")
+        # print(msg)
         for key in msg:
-            #print(key)
-            #print(msg[key][0])
+            # print(key)
+            # print(msg[key][0])
             if self.monitor.nff_groupbox.findChild(QLabel, key):
                 item = self.monitor.nff_groupbox.findChild(QLabel, key)
             elif self.monitor.sc_groupbox.findChild(QLabel, key):
                 item = self.monitor.sc_groupbox.findChild(QLabel, key)
+            elif self.monitor.ub_groupbox.findChild(QLabel, key):
+                item = self.monitor.ub_groupbox.findChild(QLabel, key)
             else:
                 continue
             item.setText(str(msg[key][0]))

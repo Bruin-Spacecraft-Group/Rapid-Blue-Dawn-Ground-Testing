@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="dashboard">
       <attribute name="title">
@@ -31,210 +31,229 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
          <item>
-          <widget class="QGroupBox" name="sc_groupbox">
-           <property name="title">
-            <string>Blue Dawn</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
-            <item row="5" column="1">
-             <widget class="QLabel" name="current">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="voltage">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="mosfet_state_name">
-              <property name="text">
-               <string>MOSFET State</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="current_name">
-              <property name="text">
-               <string>Umbilical Current</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Ang Vel Vector</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QLabel" name="label_20">
-              <property name="text">
-               <string>Mag Vector</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <widget class="QLabel" name="sc_mag_x">
+          <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,0">
+           <item>
+            <widget class="QGroupBox" name="sc_groupbox">
+             <property name="title">
+              <string>Blue Dawn</string>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="spacecraft_time_name">
+                <property name="text">
+                 <string>Spacecraft Time</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="spacecraft_time">
                 <property name="text">
                  <string>Value</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="sc_mag_y">
+              <item row="1" column="0">
+               <widget class="QLabel" name="flow_rate_name">
+                <property name="text">
+                 <string>Flow Rate</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="flow_rate">
                 <property name="text">
                  <string>Value</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="sc_mag_z">
+              <item row="2" column="0">
+               <widget class="QLabel" name="mosfet_state_name">
+                <property name="text">
+                 <string>MOSFET State</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="mosfet_state">
+                <property name="text">
+                 <string>Value</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Pump Current</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="pump_current">
+                <property name="text">
+                 <string>Value</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Pump Voltage</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="pump_voltage">
+                <property name="text">
+                 <string>Value</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string>Accel Vector</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="sc_acceleration_x">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_acceleration_y">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_acceleration_z">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>Mag Vector</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLabel" name="sc_mag_x">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_mag_y">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_mag_z">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Ang Vel Vector</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="sc_ang_vel_x">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_ang_vel_y">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sc_ang_vel_z">
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="ub_groupbox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="title">
+              <string>Umbilical</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="0" column="0">
+               <widget class="QLabel" name="current_name">
+                <property name="text">
+                 <string>Current</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="current">
+                <property name="text">
+                 <string>Value</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="voltage_name">
+                <property name="text">
+                 <string>Voltage</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="voltage">
                 <property name="text">
                  <string>Value</string>
                 </property>
                </widget>
               </item>
              </layout>
-            </item>
-            <item row="9" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="QLabel" name="sc_ang_vel_x">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="sc_ang_vel_y">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="sc_ang_vel_z">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="pump_current">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Pump Current</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="flow_rate">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="spacecraft_time_name">
-              <property name="text">
-               <string>Spacecraft Time</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="mosfet_state">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="voltage_name">
-              <property name="text">
-               <string>Umbilical Voltage</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>Accel Vector</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="spacecraft_time">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="flow_rate_name">
-              <property name="text">
-               <string>Flow Rate</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="sc_acceleration_x">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="sc_acceleration_y">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="sc_acceleration_z">
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Pump Voltage</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="pump_voltage">
-              <property name="text">
-               <string>Value</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QGroupBox" name="nff_groupbox">
@@ -503,6 +522,12 @@
        </item>
        <item>
         <widget class="QGroupBox" name="command_groupbox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>200</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
